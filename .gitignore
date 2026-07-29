@@ -17,8 +17,10 @@ ENV/
 
 # PyInstaller
 *.spec
+!packaging/*.spec
 build/
 dist/
+packaging/output/
 
 # Local app data / database / config (never commit personal task data)
 *.db

@@ -249,31 +249,60 @@ implementing the same three methods (`summarize_email`, `suggest_quadrant`,
 
 ---
 
-## 5. Packaging into a Windows `.exe` (optional)
+## 5. Building a Windows installer (`TaskOrganizer-Setup.exe`)
 
-Once everything works via `python app\main.py`, you can package it into a
-single Windows executable with [PyInstaller](https://pyinstaller.org) so it
-can be run without a Python install:
+There are two ways to get an installer:
+
+### Option A -- download the one CI already built (easiest)
+
+Every push to this branch runs
+[`.github/workflows/build-windows-installer.yml`](.github/workflows/build-windows-installer.yml)
+on a real `windows-latest` GitHub Actions runner. It:
+
+1. Installs the Python dependencies and PyInstaller.
+2. Builds `dist/TaskOrganizer/TaskOrganizer.exe` using
+   [`packaging/task_organizer.spec`](packaging/task_organizer.spec) (a
+   one-folder build -- more reliable for PySide6 apps than `--onefile`).
+3. Installs [Inno Setup](https://jrsoftware.org/isinfo.php) and compiles
+   [`packaging/installer.iss`](packaging/installer.iss) into a proper Windows
+   installer (Start Menu shortcut, optional desktop icon, uninstaller entry
+   in "Add or Remove Programs") at `packaging/output/TaskOrganizer-Setup.exe`.
+4. Uploads that installer as the workflow run's build artifact.
+
+To get it: open the **Actions** tab on GitHub -> the latest
+"Build Windows Installer" run -> download the `TaskOrganizer-Setup` artifact
+(a zip containing `TaskOrganizer-Setup.exe`). Run that `.exe` on Windows like
+any other installer.
+
+You can also trigger a build on demand from the **Actions** tab via
+"Run workflow" (`workflow_dispatch`), without needing a new commit.
+
+### Option B -- build it yourself on a Windows machine
 
 ```powershell
+pip install -r requirements.txt
 pip install pyinstaller
-pyinstaller --name TaskOrganizer --windowed --onefile app\main.py
+pyinstaller --noconfirm --distpath dist --workpath build packaging\task_organizer.spec
 ```
 
-- `--windowed` stops a console window from popping up alongside the GUI.
-- `--onefile` bundles everything into a single `.exe` (slower to start,
-  simplest to distribute); drop it for a faster-starting folder build.
-- The result will be in `dist\TaskOrganizer.exe`.
+This produces `dist\TaskOrganizer\TaskOrganizer.exe` (a folder you can zip and
+share as-is, or run directly). To also get a proper installer `.exe`, install
+[Inno Setup 6](https://jrsoftware.org/isdl.php), then run:
+
+```powershell
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" packaging\installer.iss
+```
+
+which writes `packaging\output\TaskOrganizer-Setup.exe`.
 
 Notes:
-- PyInstaller sometimes needs extra `--hidden-import` flags for PySide6
-  plugins depending on your Python/PySide6 version; if the built `.exe`
-  fails to start, run it from a terminal (`dist\TaskOrganizer.exe` without
-  `--windowed` while debugging) to see the error, and search the PyInstaller
-  + PySide6 docs for the specific missing module.
 - The app's data file (`~/.task_organizer/...` or your configured OneDrive
-  folder) lives outside the `.exe`, so rebuilding/updating the `.exe` never
+  folder) lives outside the installed app, so reinstalling/updating never
   touches your task data.
+- If a fresh PyInstaller build fails to start, run
+  `dist\TaskOrganizer\TaskOrganizer.exe` from a terminal to see the error --
+  most failures are a missing `--hidden-import` for a PySide6/APScheduler/
+  plyer plugin; add it to `hiddenimports` in `packaging/task_organizer.spec`.
 
 ---
 
@@ -307,6 +336,12 @@ tests/
   test_ui_smoke.py               UI import + (if possible) construction smoke tests
 requirements.txt
 .gitignore
+launcher.py                    PyInstaller entrypoint (outside the app/ package)
+packaging/
+  task_organizer.spec          PyInstaller build spec
+  installer.iss                Inno Setup installer script
+.github/workflows/
+  build-windows-installer.yml  CI: builds TaskOrganizer-Setup.exe on windows-latest
 ```
 
 ## 7. Data & privacy
