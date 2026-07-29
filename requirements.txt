@@ -1,0 +1,25 @@
+# Core GUI
+PySide6>=6.6,<7
+
+# Local persistence uses the sqlite3 standard-library module -- no extra
+# package needed for the database itself.
+
+# Outlook / Teams (Microsoft Graph) auth -- device-code OAuth, no client secret
+msal>=1.28,<2
+
+# Excel import/export
+openpyxl>=3.1,<4
+
+# Local AI via Ollama (falls back to plain HTTP if this package isn't used
+# directly -- see app/integrations/ai_provider.py)
+ollama>=0.3,<1
+
+# Reminder/digest scheduling
+APScheduler>=3.10,<4
+
+# Windows toast notifications (best-effort; app degrades gracefully if this
+# can't be used/imported, e.g. on non-Windows platforms)
+plyer>=2.1,<3
+
+# Testing
+pytest>=8.0,<9
