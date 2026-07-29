@@ -37,7 +37,13 @@ from app.ui.time_tracker import TimeTrackerView
 
 logger = logging.getLogger(__name__)
 
-NAV_ITEMS = ["Dashboard", "Matrix", "Time Tracker", "Reports", "Settings"]
+NAV_ITEMS = [
+    "▦  Dashboard",
+    "◱  Matrix",
+    "⏱  Time Tracker",
+    "▤  Reports",
+    "⚙  Settings",
+]
 
 
 class MainWindow(QMainWindow):
@@ -65,14 +71,18 @@ class MainWindow(QMainWindow):
         splitter = QSplitter(Qt.Horizontal)
 
         self.nav_list = QListWidget()
+        self.nav_list.setObjectName("navList")
         self.nav_list.addItems(NAV_ITEMS)
-        self.nav_list.setMaximumWidth(160)
+        self.nav_list.setMaximumWidth(180)
+        self.nav_list.setFrameShape(QListWidget.NoFrame)
         self.nav_list.currentRowChanged.connect(self._on_nav_changed)
         splitter.addWidget(self.nav_list)
 
         self.stack = QStackedWidget()
 
-        self.dashboard_view = DashboardView(self.db_path, on_open_task=self.open_task_editor)
+        self.dashboard_view = DashboardView(
+            self.db_path, on_open_task=self.open_task_editor, on_quick_add=self.quick_add_task
+        )
         self.matrix_view = MatrixView(self.db_path, on_open_task=self.open_task_editor)
         self.time_tracker_view = TimeTrackerView(self.db_path)
         self.reports_view = ReportsView(self.db_path)
@@ -132,6 +142,20 @@ class MainWindow(QMainWindow):
             task = dialog.result_task()
             db.create_task(task, self.db_path)
             self.refresh_all()
+
+    def quick_add_task(self, title: str) -> None:
+        """One-step task capture: title only, sane defaults, no dialog.
+
+        Used by the Dashboard's quick-add bar so jotting down a task never
+        costs more than typing it and pressing Enter. Full details (project,
+        deadline, quadrant, ...) can still be filled in later by opening the
+        task from the Matrix or Dashboard.
+        """
+        title = title.strip()
+        if not title:
+            return
+        db.create_task(Task(title=title), self.db_path)
+        self.refresh_all()
 
     def open_task_editor(self, task_id: int) -> None:
         task = db.get_task(task_id, self.db_path)

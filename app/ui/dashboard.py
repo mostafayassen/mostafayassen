@@ -7,9 +7,11 @@ from typing import Optional
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QFrame,
     QGroupBox,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QListWidget,
     QListWidgetItem,
     QPushButton,
@@ -22,10 +24,11 @@ from app.models import STATUS_DONE, Task
 
 
 class DashboardView(QWidget):
-    def __init__(self, db_path: Optional[str], on_open_task=None, parent=None):
+    def __init__(self, db_path: Optional[str], on_open_task=None, on_quick_add=None, parent=None):
         super().__init__(parent)
         self.db_path = db_path
         self.on_open_task = on_open_task
+        self.on_quick_add = on_quick_add
 
         layout = QVBoxLayout(self)
 
@@ -34,6 +37,26 @@ class DashboardView(QWidget):
 
         self.summary_label = QLabel()
         layout.addWidget(self.summary_label)
+
+        quick_add_card = QFrame()
+        quick_add_card.setObjectName("card")
+        quick_add_layout = QHBoxLayout(quick_add_card)
+        quick_add_layout.setContentsMargins(10, 10, 10, 10)
+
+        self.quick_add_input = QLineEdit()
+        self.quick_add_input.setObjectName("quickAddInput")
+        self.quick_add_input.setPlaceholderText(
+            "اكتب مهمة واضغط Enter عشان تضيفها فورًا…"
+        )
+        self.quick_add_input.returnPressed.connect(self._submit_quick_add)
+        quick_add_layout.addWidget(self.quick_add_input, 1)
+
+        quick_add_btn = QPushButton("Add")
+        quick_add_btn.setObjectName("primaryButton")
+        quick_add_btn.clicked.connect(self._submit_quick_add)
+        quick_add_layout.addWidget(quick_add_btn)
+
+        layout.addWidget(quick_add_card)
 
         row = QHBoxLayout()
 
@@ -69,6 +92,18 @@ class DashboardView(QWidget):
         self._overdue_tasks = []
 
         self.refresh()
+
+    def _submit_quick_add(self) -> None:
+        title = self.quick_add_input.text().strip()
+        if not title:
+            return
+        self.quick_add_input.clear()
+        if self.on_quick_add:
+            self.on_quick_add(title)
+        else:
+            db.create_task(Task(title=title), self.db_path)
+            self.refresh()
+        self.quick_add_input.setFocus()
 
     def refresh(self) -> None:
         tasks = [t for t in db.list_tasks(self.db_path) if t.status != STATUS_DONE]
