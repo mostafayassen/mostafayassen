@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوابة فروع مجموعة رام الطبية</title>
+<style>
+  :root{
+    --teal-900:#04302e;
+    --teal-800:#0a3f3c;
+    --teal-700:#0f4c49;
+    --teal-600:#146560;
+    --teal-500:#1a8079;
+    --teal-400:#22a199;
+    --teal-100:#e3f3f1;
+    --gray-50:#f7f8f8;
+    --gray-100:#eef0f0;
+    --gray-200:#dfe3e2;
+    --gray-400:#9aa5a3;
+    --gray-600:#5a6664;
+    --gray-800:#2c3534;
+    --white:#ffffff;
+    --danger:#b3261e;
+    --danger-bg:#fdecea;
+    --success:#1e7d32;
+    --success-bg:#e9f7ec;
+    --warn:#8a6100;
+    --warn-bg:#fff6e0;
+    --radius:10px;
+    --shadow:0 2px 10px rgba(4,48,46,.08);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI", Tahoma, Arial, sans-serif;
+    background:var(--gray-50);
+    color:var(--gray-800);
+    direction:rtl;
+  }
+  header.app-header{
+    background:linear-gradient(90deg,var(--teal-900),var(--teal-700));
+    color:var(--white);
+    padding:18px 20px;
+    box-shadow:var(--shadow);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .app-header .title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .app-header h1{
+    margin:0;
+    font-size:20px;
+    font-weight:700;
+  }
+  .app-header .subtitle{
+    font-size:12px;
+    opacity:.85;
+    margin-top:2px;
+  }
+  .header-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .container{
+    max-width:1280px;
+    margin:0 auto;
+    padding:18px 16px 60px;
+  }
+  nav.tabs{
+    display:flex;
+    gap:6px;
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:6px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    flex:1 1 auto;
+    min-width:120px;
+    padding:10px 14px;
+    border:none;
+    background:transparent;
+    color:var(--teal-800);
+    font-weight:600;
+    font-size:14px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background .15s,color .15s;
+  }
+  nav.tabs button:hover{background:var(--teal-100);}
+  nav.tabs button.active{
+    background:var(--teal-700);
+    color:var(--white);
+  }
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* لوحة المؤشرات */
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:14px;
+    margin-bottom:20px;
+  }
+  .stat-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    box-shadow:var(--shadow);
+    border-inline-start:5px solid var(--teal-500);
+  }
+  .stat-card .stat-label{font-size:13px;color:var(--gray-600);margin-bottom:6px;}
+  .stat-card .stat-value{font-size:28px;font-weight:700;color:var(--teal-800);}
+
+  .panels-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:14px;
+    margin-bottom:20px;
+  }
+  .panel{
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    box-shadow:var(--shadow);
+  }
+  .panel h3{margin:0 0 12px;font-size:15px;color:var(--teal-800);}
+  .bar-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+    font-size:13px;
+  }
+  .bar-row .bar-label{
+    min-width:110px;
+    color:var(--gray-800);
+    flex-shrink:0;
+  }
+  .bar-track{
+    flex:1;
+    background:var(--gray-100);
+    border-radius:6px;
+    height:16px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--teal-500),var(--teal-400));
+    border-radius:6px;
+  }
+  .bar-count{
+    min-width:28px;
+    text-align:left;
+    font-weight:700;
+    color:var(--teal-700);
+  }
+
+  /* أدوات التحكم بكل صفحة */
+  .toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .toolbar .search-wrap{
+    flex:1 1 260px;
+    position:relative;
+  }
+  .toolbar input[type="search"]{
+    width:100%;
+    padding:10px 14px;
+    border:1px solid var(--gray-200);
+    border-radius:8px;
+    font-size:14px;
+    background:var(--white);
+  }
+  .toolbar input[type="search"]:focus{
+    outline:2px solid var(--teal-400);
+    border-color:var(--teal-500);
+  }
+  .toolbar .btn-group{display:flex;gap:8px;flex-wrap:wrap;}
+
+  button.btn{
+    border:none;
+    border-radius:8px;
+    padding:9px 16px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:filter .15s, transform .05s;
+  }
+  button.btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--teal-600);color:#fff;}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn-secondary{background:var(--gray-100);color:var(--teal-800);}
+  .btn-secondary:hover{background:var(--gray-200);}
+  .btn-danger{background:var(--danger-bg);color:var(--danger);}
+  .btn-danger:hover{filter:brightness(.97);}
+  .btn-outline{background:transparent;border:1px solid var(--teal-500);color:var(--teal-700);}
+  .btn-sm{padding:6px 10px;font-size:12px;}
+
+  .table-wrap{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:760px;
+    font-size:13px;
+  }
+  thead th{
+    background:var(--teal-800);
+    color:#fff;
+    text-align:right;
+    padding:10px 12px;
+    white-space:nowrap;
+    position:sticky;
+    top:0;
+  }
+  tbody td{
+    padding:9px 12px;
+    border-bottom:1px solid var(--gray-100);
+    white-space:nowrap;
+  }
+  tbody tr:hover{background:var(--teal-100);}
+  tbody tr:nth-child(even){background:var(--gray-50);}
+  tbody tr:nth-child(even):hover{background:var(--teal-100);}
+  .cell-actions{display:flex;gap:6px;}
+  .empty-row td{
+    text-align:center;
+    color:var(--gray-600);
+    padding:26px;
+  }
+  .badge{
+    display:inline-block;
+    padding:3px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+  }
+  .badge-dental{background:#e6ecff;color:#2b3fae;}
+  .badge-medical{background:var(--teal-100);color:var(--teal-700);}
+  .badge-other{background:var(--gray-100);color:var(--gray-600);}
+  .badge-active{background:var(--success-bg);color:var(--success);}
+  .badge-inactive{background:var(--danger-bg);color:var(--danger);}
+  .badge-pending{background:var(--warn-bg);color:var(--warn);}
+
+  .result-count{font-size:12px;color:var(--gray-600);margin:8px 2px 0;}
+
+  /* نافذة النموذج المنبثقة */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(4,48,46,.45);
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:30px 14px;
+    overflow-y:auto;
+    z-index:200;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:#fff;
+    border-radius:var(--radius);
+    width:100%;
+    max-width:640px;
+    box-shadow:0 10px 40px rgba(0,0,0,.25);
+    animation:pop .15s ease-out;
+  }
+  @keyframes pop{from{transform:translateY(-8px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 20px;
+    border-bottom:1px solid var(--gray-100);
+  }
+  .modal-header h2{margin:0;font-size:17px;color:var(--teal-800);}
+  .modal-close{
+    background:none;border:none;font-size:20px;cursor:pointer;color:var(--gray-600);
+    line-height:1;
+  }
+  .modal-body{padding:18px 20px;max-height:65vh;overflow-y:auto;}
+  .modal-footer{
+    padding:14px 20px;
+    border-top:1px solid var(--gray-100);
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+  .form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px 14px;
+  }
+  .form-field{display:flex;flex-direction:column;gap:5px;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{font-size:12px;color:var(--gray-600);font-weight:600;}
+  .form-field input,.form-field select,.form-field textarea{
+    padding:9px 10px;
+    border:1px solid var(--gray-200);
+    border-radius:7px;
+    font-size:13px;
+    font-family:inherit;
+    background:#fff;
+  }
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+    outline:2px solid var(--teal-400);
+    border-color:var(--teal-500);
+  }
+  .required-mark{color:var(--danger);}
+
+  .confirm-modal .modal{max-width:400px;}
+
+  /* التنبيهات */
+  #toastHost{
+    position:fixed;
+    bottom:18px;
+    left:18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    z-index:300;
+    max-width:340px;
+  }
+  .toast{
+    padding:12px 16px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:600;
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+    animation:slideIn .2s ease-out;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+  }
+  @keyframes slideIn{from{transform:translateY(10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .toast.success{background:var(--success-bg);color:var(--success);border:1px solid #b6e3bf;}
+  .toast.error{background:var(--danger-bg);color:var(--danger);border:1px solid #f3c2be;}
+  .toast.info{background:var(--teal-100);color:var(--teal-800);border:1px solid #bfe0db;}
+
+  .import-input{display:none;}
+
+  footer.app-footer{
+    text-align:center;
+    font-size:12px;
+    color:var(--gray-600);
+    padding:20px 10px 40px;
+  }
+
+  @media (max-width:640px){
+    .app-header h1{font-size:17px;}
+    nav.tabs button{min-width:90px;font-size:12px;padding:9px 8px;}
+    .toolbar{flex-direction:column;align-items:stretch;}
+    .toolbar .btn-group{justify-content:flex-start;}
+    .modal-body{max-height:75vh;}
+  }
+
+  /* وضع الطباعة: يظهر فقط الجدول النشط */
+  @media print{
+    header.app-header, nav.tabs, .toolbar, footer.app-footer, #toastHost, .overlay,
+    .stats-grid, .panels-grid, .no-print{
+      display:none !important;
+    }
+    body{background:#fff;}
+    .table-wrap{box-shadow:none;overflow:visible;}
+    table{min-width:0;}
+    .print-title{
+      display:block !important;
+      font-size:18px;
+      font-weight:700;
+      margin:0 0 12px;
+      color:#000;
+    }
+  }
+  .print-title{display:none;}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="title-row">
+    <div>
+      <h1>بوابة فروع مجموعة عيادات رام الطبية</h1>
+      <div class="subtitle">إدارة الفروع وبيانات وصيل وأكواد شركات التأمين — نسخة محلية بدون اتصال بالإنترنت</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary btn-sm" id="btnExport">تصدير نسخة احتياطية JSON</button>
+      <button class="btn btn-secondary btn-sm" id="btnImportTrigger">استيراد JSON</button>
+      <input type="file" id="importFileInput" class="import-input" accept="application/json">
+      <button class="btn btn-outline btn-sm" id="btnPrint">طباعة الجدول الحالي</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <nav class="tabs no-print" id="tabsNav">
+    <button data-page="dashboard" class="active">لوحة المؤشرات</button>
+    <button data-page="branches">الفروع</button>
+    <button data-page="insurance">أكواد شركات التأمين</button>
+    <button data-page="credentials">بيانات وصيل / الاعتماد</button>
+  </nav>
+
+  <!-- ================= لوحة المؤشرات ================= -->
+  <section class="page active" id="page-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">إجمالي الفروع</div>
+        <div class="stat-value" id="statBranches">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">إجمالي أكواد التأمين</div>
+        <div class="stat-value" id="statInsurance">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">إجمالي بيانات الاعتماد (وصيل)</div>
+        <div class="stat-value" id="statCredentials">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">آخر تحديث للبيانات</div>
+        <div class="stat-value" id="statUpdatedAt" style="font-size:15px;">—</div>
+      </div>
+    </div>
+
+    <div class="panels-grid">
+      <div class="panel">
+        <h3>توزيع الفروع حسب المدينة</h3>
+        <div id="cityDistribution"></div>
+      </div>
+      <div class="panel">
+        <h3>توزيع الفروع حسب الفئة</h3>
+        <div id="categoryDistribution"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= الفروع ================= -->
+  <section class="page" id="page-branches">
+    <h2 class="print-title">جدول الفروع</h2>
+    <div class="toolbar no-print">
+      <div class="search-wrap">
+        <input type="search" id="searchBranches" placeholder="بحث باسم الفرع، المدينة، CCHI...">
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btnAddBranch">+ إضافة فرع</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>اسم الفرع (عربي)</th>
+            <th>اسم الفرع (إنجليزي)</th>
+            <th>المدينة</th>
+            <th>الفئة</th>
+            <th>الهاتف</th>
+            <th>CCHI</th>
+            <th>IBAN</th>
+            <th class="no-print">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="branchesTbody"></tbody>
+      </table>
+    </div>
+    <div class="result-count no-print" id="branchesCount"></div>
+  </section>
+
+  <!-- ================= أكواد التأمين ================= -->
+  <section class="page" id="page-insurance">
+    <h2 class="print-title">جدول أكواد شركات التأمين</h2>
+    <div class="toolbar no-print">
+      <div class="search-wrap">
+        <input type="search" id="searchInsurance" placeholder="بحث بشركة التأمين، كود التأمين، اسم الفرع، رقم مقدم الخدمة...">
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btnAddInsurance">+ إضافة كود تأمين</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>شركة التأمين</th>
+            <th>كود التأمين</th>
+            <th>اسم الفرع (الأساسي)</th>
+            <th>الفرع</th>
+            <th>اسم الفرع الكامل</th>
+            <th>رقم مقدم الخدمة</th>
+            <th>CCHI</th>
+            <th>Nphies ID</th>
+            <th>IBAN</th>
+            <th class="no-print">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="insuranceTbody"></tbody>
+      </table>
+    </div>
+    <div class="result-count no-print" id="insuranceCount"></div>
+  </section>
+
+  <!-- ================= بيانات وصيل / الاعتماد ================= -->
+  <section class="page" id="page-credentials">
+    <h2 class="print-title">جدول بيانات وصيل / الاعتماد</h2>
+    <div class="toolbar no-print">
+      <div class="search-wrap">
+        <input type="search" id="searchCredentials" placeholder="بحث باسم الفرع، Waseel ID، CCHI...">
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btnAddCredential">+ إضافة بيانات اعتماد</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>اسم الفرع</th>
+            <th>Waseel ID</th>
+            <th>CCHI</th>
+            <th>الفئة</th>
+            <th>الحالة</th>
+            <th class="no-print">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="credentialsTbody"></tbody>
+      </table>
+    </div>
+    <div class="result-count no-print" id="credentialsCount"></div>
+  </section>
+
+</div>
+
+<footer class="app-footer no-print">
+  بوابة داخلية لمجموعة عيادات رام الطبية — جميع البيانات محفوظة محلياً في متصفحك فقط (LocalStorage)، لا يتم إرسال أي بيانات لأي خادم خارجي.
+</footer>
+
+<!-- نافذة النموذج المنبثقة (إضافة / تعديل) -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="formModalTitle">إضافة سجل</h2>
+      <button class="modal-close" id="formModalClose">&times;</button>
+    </div>
+    <form id="recordForm">
+      <div class="modal-body">
+        <div class="form-grid" id="formFieldsContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="formCancelBtn">إلغاء</button>
+        <button type="submit" class="btn btn-primary">حفظ</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- نافذة تأكيد الحذف -->
+<div class="overlay confirm-modal" id="confirmOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>تأكيد الحذف</h2>
+      <button class="modal-close" id="confirmModalClose">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirmMessage">هل أنت متأكد من حذف هذا السجل؟ لا يمكن التراجع عن هذا الإجراء.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" id="confirmCancelBtn">إلغاء</button>
+      <button type="button" class="btn btn-danger" id="confirmDeleteBtn">حذف نهائياً</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastHost"></div>
+
+<script>
+/* =========================================================
+   بيانات البذرة (Seed Data) — مستخرجة من ملف الإكسل الأصلي
+   تُستخدم فقط عند عدم وجود بيانات محفوظة سابقاً في LocalStorage
+   ========================================================= */
+const SEED_DATA = {"branches": [{"id": "64d5f033-39f0-4ed7-8ac1-7832ddba778c", "no": "1", "nameAr": "شركة المركز السعودى السويسري الإستشاري المحدودة", "nameEn": "Saudi Swiss Consulting Center Ltd.", "addressEn": "Custodian of The Two Holy Mosques Rd, Al Khobar-Dhahran st. opposite of Vanessya mall Al Khobar 34446", "addressAr": "طريق خادم الحرمين الشريفين الخبر - شارع الظهران. مقابل فانسيا مول الخبر 34446", "category": "Dental", "tel": "920020011", "city": "الخبر", "cchi": "17164", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082198", "bankIban": "SA8280000578608010082198", "swiftCode": "", "mohLicenseNo": "038-105-013-050-10006", "crIssueDate": "09-04-1429", "cr": "2051037030", "unifiedNo": "7001555650", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "876a85fe-1f0a-4687-85be-7326ee5e96e1", "no": "2", "nameAr": "مجمع عيادات رام لطب الأسنان - الأحساء 1", "nameEn": "Ram Dental Clinics Complex Al-Ahsa  1", "addressEn": "2446 Al-Yahya District in Al-Mabarz - Dhahran Street، Al-Ahsa 36341", "addressAr": "2446 حي اليحيى في المبرز - شارع الظهران ، الأحساء 36341", "category": "Dental", "tel": "920020011", "city": "الإحساء", "cchi": "17585", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082255", "bankIban": "SA9580000578608010082255", "swiftCode": "", "mohLicenseNo": "035-001-013-050-10004", "crIssueDate": "13-03-1431", "cr": "2252039849", "unifiedNo": "7013621086", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "9ea37597-35ab-4d32-a959-8bcf2950a75a", "no": "3", "nameAr": "شركة عيادات رام الطبية- جدة", "nameEn": "Ram Medical Clinics Company - Jeddah", "addressEn": "Jeddah - Al-Marwa District - Hira Street", "addressAr": "جدة-حي المروه -شارع حراء", "category": "Dental", "tel": "920020011", "city": "جدة", "cchi": "18782", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082230", "bankIban": "SA9180000578608010082230", "swiftCode": "", "mohLicenseNo": "026-101-013-096-10008", "crIssueDate": "17-02-1437", "cr": "4030286184", "unifiedNo": "7006530260", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "ae3a88a7-ebf0-4f8e-8780-9000aff57615", "no": "4", "nameAr": "مجمع عيادات رام الطبية-الدمام2", "nameEn": "Ram Medical Clinics Complex - Dammam 2", "addressEn": "Dammam - Al-Muraikbat District - Othman Ibn Affan Street", "addressAr": "الدمام - حى المريكبات - شارع عثمان ابن عفان", "category": "Dental", "tel": "920020011", "city": "الدمام", "cchi": "17633", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082099", "bankIban": "SA3980000578608010082099", "swiftCode": "", "mohLicenseNo": "038-103-013-050-10019", "crIssueDate": "21-05-1431", "cr": "2050070435", "unifiedNo": "7011645319", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "3fecbbc4-1d1c-4c42-b98c-93c09a8c495d", "no": "5", "nameAr": "مجمع الدوحة الطبي - الظهران", "nameEn": "Doha Medical Complex - Dhahran", "addressEn": "Dhahran - Doha - Abdullah bin Abbas St.", "addressAr": "الظهران - الدوحة- ش عبدالله بن عباس", "category": "Medical", "tel": "920020011", "city": "الظهران", "cchi": "18680", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082289", "bankIban": "SA5080000578608010082289", "swiftCode": "", "mohLicenseNo": "038-104-012-012-10005", "crIssueDate": "13-03-1431", "cr": "2252039849", "unifiedNo": "7001383202", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "1ff6431b-e7f6-40fc-b682-a74f2e54c507", "no": "6", "nameAr": "شركة سيرام الطبية-الأحساء2", "nameEn": "Ceram Medical Company - Al-Ahsa 2", "addressEn": "Al-Ahsa - Al-Bustan District - behind Al-Othaim Mall", "addressAr": "الاحساء - حي البستان - خلف العثيم مول", "category": "Dental", "tel": "920020011", "city": "الإحساء", "cchi": "18224", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082263", "bankIban": "SA7380000578608010082263", "swiftCode": "", "mohLicenseNo": "035-001-013-012-10015", "crIssueDate": "06-11-1434", "cr": "2050094261", "unifiedNo": "7001892640", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "39d22043-b94d-42bb-9878-7f63866518de", "no": "7", "nameAr": "شركة دار رام للجلدية والأسنان", "nameEn": "Dar Ram Dental and Derma Company", "addressEn": "4736 Addanah tower، Prince Faisal Bin Fahd Road, Al Hizam Al Akhdar, Al Khobar 34433", "addressAr": "4736 برج عدانة ، طريق الأمير فيصل بن فهد ، الحزام الأخضر ، الخبر 34433", "category": "Dental", "tel": "920020011", "city": "الخبر", "cchi": "17920", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082164", "bankIban": "SA3080000578608010082164", "swiftCode": "", "mohLicenseNo": "038-105-013-096-10019", "crIssueDate": "17-01-1438", "cr": "2051063078", "unifiedNo": "7003537615", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "ca3e45aa-b851-4b8a-8454-dc6970d544a0", "no": "8", "nameAr": "شركة رام الجبيل الطبية", "nameEn": "Ram Al-Jubail Medical Company", "addressEn": "Jubail - Fanateer District - Alshatea ST", "addressAr": "الجبيل- حى الفناتير - شارع الشاطي", "category": "Dental", "tel": "920020011", "city": "الجبيل", "cchi": "17815", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082321", "bankIban": "SA5980000578608010082321", "swiftCode": "", "mohLicenseNo": "038-111-013-096-10003", "crIssueDate": "10-10-1433", "cr": "2055017142", "unifiedNo": "7011026908", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "e0cd15cb-7ad9-495e-9341-c47e492d37c8", "no": "9", "nameAr": "شركة رام الخبر الطبية", "nameEn": "Ram Al-Khobar Medical Company", "addressEn": "Al-Khobar - Al-Aqrabeya District - Prince Hammoud Street", "addressAr": "الخبر- حى العقربية - شارع الأمير حمود", "category": "Dental", "tel": "920020011", "city": "الخبر", "cchi": "17180", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082149", "bankIban": "SA4780000578608010082149", "swiftCode": "", "mohLicenseNo": "038-105-013-050-10002", "crIssueDate": "17-12-1427", "cr": "2051033648", "unifiedNo": "7011742090", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "c6924584-20f8-47b7-a479-c509e0e329fb", "no": "10", "nameAr": "شركة رام الخبر الطبية - الخبر 2", "nameEn": "Ram Al-Khobar Medical Company - Khobar 2", "addressEn": "Al Salem Boulevard, Prince Faisal Bin Fahd Road, Al Khobar Al Shamalia, Al Khobar 34426", "addressAr": "بوليفارد السالم ، طريق الأمير فيصل بن فهد ، الخبر الشمالية ، الخبر 34426", "category": "Dental", "tel": "920020011", "city": "الخبر", "cchi": "17882", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082156", "bankIban": "SA5280000578608010082156", "swiftCode": "", "mohLicenseNo": "038-105-013-050-10016", "crIssueDate": "17-02-1434", "cr": "2051051176", "unifiedNo": "7011037079", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "3a50ecb7-ecd6-4eaf-b4e3-9a9c33423568", "no": "11", "nameAr": "شركة رام القطيف الطبية", "nameEn": "Ram Al-Qatif Medical Company", "addressEn": "Al-Qatif - Al-Majidiya District - Al-Quds Street", "addressAr": "القطيف- حى المجيدية - شارع القدس", "category": "Dental", "tel": "920020011", "city": "القطيف", "cchi": "17880", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082248", "bankIban": "SA9080000578608010082248", "swiftCode": "", "mohLicenseNo": "038-101-013-050-10006", "crIssueDate": "21-06-1434", "cr": "2053028189", "unifiedNo": "7001800858", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "f647d7a1-19db-4644-9fd0-469de2ea928a", "no": "12", "nameAr": "شركة رام بسمات الطبية -الراكة", "nameEn": "Ram Basmat Medical Company", "addressEn": "3926 Khaled Ibn Al Walid St, Al Rakah Al Janoubia, Al Khobar 34225", "addressAr": "3926 شارع خالد بن الوليد الراكة الجنوبية الخبر 34225", "category": "Dental", "tel": "920020011", "city": "الخبر", "cchi": "17388", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082180", "bankIban": "SA8380000578608010082180", "swiftCode": "", "mohLicenseNo": "038-103-013-096-10015", "crIssueDate": "17-08-1429", "cr": "2050061781", "unifiedNo": "7011011660", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "9a9a52e4-d22b-46b1-9491-c3bbbb26d2a2", "no": "13", "nameAr": "مجمع عيادات رام الطبية -الدمام1", "nameEn": "Ram Medical Clinics Complex - Dammam 1", "addressEn": "Dammam - Mubarakiya District - Corniche - Gulf Road", "addressAr": "الدمام - حى المباركية - الكورنيش - طريق الخليج", "category": "Dental", "tel": "920020011", "city": "الدمام", "cchi": "17538", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082081", "bankIban": "SA4080000578608010082081", "swiftCode": "", "mohLicenseNo": "038-103-013-050-10016", "crIssueDate": "29-12-1430", "cr": "2050067908", "unifiedNo": "7013317578", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "453dad68-519a-41d0-a470-e6a224846077", "no": "14", "nameAr": "مجمع عيادات رام الطبي-الدمام3", "nameEn": "Ram Medical Complex - Dammam 3", "addressEn": "Dammam - Buhaira District - Gulf Road", "addressAr": "الدمام - حى البحيرة - طريق الخليج", "category": "Dental", "tel": "920020011", "city": "الدمام", "cchi": "18488", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082107", "bankIban": "SA1780000578608010082107", "swiftCode": "", "mohLicenseNo": "038-103-012-012-10089", "crIssueDate": "25-10-1425", "cr": "2050047043", "unifiedNo": "7011331092", "vat": "310152224710003", "region": "المنطقة الغربية"}, {"id": "55b03fa8-6078-4499-b3d5-0375bbdebc44", "no": "15", "nameAr": "مجمع عيادات رام الطبي -الدوحة", "nameEn": "Ram Medical Complex - Doha", "addressEn": "Dhahran - Al-Qusour District - Doha", "addressAr": "الظهران -  حى القصور  - الدوحة", "category": "Dental", "tel": "920020011", "city": "الظهران", "cchi": "19028", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082172", "bankIban": "SA0880000578608010082172", "swiftCode": "", "mohLicenseNo": "038-104-012-012-10006", "crIssueDate": "04-11-1439", "cr": "2052101296", "unifiedNo": "7004417700", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "0f26cd24-7ee9-462e-974c-89dc747e4b84", "no": "16", "nameAr": "مجمع شركة رام ينبع الطبية الطبي المتخصص", "nameEn": "Ram Yanbu Medical Company Specialized Medical Complex", "addressEn": "Yanbu Industrial - Khaled District - Khaled Ibn Al-Waleed Street", "addressAr": "ينبع الصناعية - حى خالد - شارع خالد ابن الوليد", "category": "Dental", "tel": "920020011", "city": "ينبع", "cchi": "18336", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082339", "bankIban": "SA5880000578608010082339", "swiftCode": "", "mohLicenseNo": "048-107-013-050-10007", "crIssueDate": "07-07-1435", "cr": "4700018524", "unifiedNo": "7009178182", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "791d5057-2b56-4d8d-b3d0-0f00aac3d42f", "no": "17", "nameAr": "شركة رام الدمام الطبية -الفيصلية", "nameEn": "Ram Dammam Medical Company - Al Faisaliah", "addressEn": "Dammam - Al-Faisaliah District - Omar Ibn Al-Khattab St", "addressAr": "الدمام - حى الفيصلية - ش عمر بن الخطاب", "category": "Medical", "tel": "920020011", "city": "الدمام", "cchi": "18511", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082115", "bankIban": "SA9280000578608010082115", "swiftCode": "", "mohLicenseNo": "038-103-012-012-10021", "crIssueDate": "06-11-1434", "cr": "2050094257", "unifiedNo": "7009420279", "vat": "310152224710003", "region": "المنطقة الغربية"}, {"id": "1383dafa-ab41-48da-9ce0-032bfea10092", "no": "18", "nameAr": "شركة رام رحيمة الطبية", "nameEn": "Ram Rahima Medical Company", "addressEn": "Al Dana - Ras Tanura", "addressAr": "الدانة -راس تنوره", "category": "Dental", "tel": "920020011", "city": "راس تنوره", "cchi": "18846", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082214", "bankIban": "SA3880000578608010082214", "swiftCode": "", "mohLicenseNo": "038-117-012-012-10003", "crIssueDate": "19-10-1434", "cr": "2066003860", "unifiedNo": "7001847669", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "71f453b5-b3fd-4481-b2e5-ae00ab933c3a", "no": "19", "nameAr": "مجمع عيادات سكيكو الطبي-بالهفوف", "nameEn": "Sceco Medical Complex - Hofuf", "addressEn": "Al hassa -hofuf", "addressAr": "الإحساء - الهفوف", "category": "Medical", "tel": "920020011", "city": "الإحساء", "cchi": "18109", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "", "bankName": "", "bankAccountNo": "", "bankIban": "", "swiftCode": "", "mohLicenseNo": "", "crIssueDate": "", "cr": "", "unifiedNo": "", "vat": "", "region": "المنطقة الشرقية"}, {"id": "db1865f2-0ff8-4942-80ad-7bbecc706adb", "no": "20", "nameAr": "مجمع عيادات رام الطبي - ابوبكر", "nameEn": "Ram Medical Care -Abu Baker", "addressEn": "4547 Abu Bakr Alsiddiq St, حي المنار،, 9154, Dammam 32274", "addressAr": "", "category": "Dental", "tel": "920020011", "city": "الدمام", "cchi": "19616", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "rcm.manager@ramclinics.com", "bankName": "Alrajhi Bank", "bankAccountNo": "57800-001-0006080082123", "bankIban": "SA7080000578608010082123", "swiftCode": "", "mohLicenseNo": "", "crIssueDate": "", "cr": "", "unifiedNo": "", "vat": "310152224710003", "region": "المنطقة الشرقية"}, {"id": "78fffefd-a1e4-4d61-8583-0702311da34b", "no": "21", "nameAr": "مجمع الشركة السعودية للكهرباء الطبي بالدمام", "nameEn": "Saudi Electricity Medical Company Complex in Dammam", "addressEn": "Dammam - King fahad Road", "addressAr": "الدمام - طريق الملك فهد", "category": "Medical", "tel": "920020011", "city": "الدمام", "cchi": "18374", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "", "bankName": "", "bankAccountNo": "", "bankIban": "", "swiftCode": "", "mohLicenseNo": "", "crIssueDate": "", "cr": "", "unifiedNo": "", "vat": "", "region": "المنطقة الشرقية"}, {"id": "00c23519-6473-46fb-a560-12fd347e4e26", "no": "22", "nameAr": "مجمع عيادات رام للاسنان والجلدية بالبحرين", "nameEn": "Ram Dental and Derma Clinics Complex Bahrain", "addressEn": "Bahrain - Elqadeem - Avenue 66", "addressAr": "البحرين - القديم - شارع ٦٦", "category": "Dental", "tel": "00973 1742 2022", "city": "البحرين- القديم", "cchi": "ــــــــــــــــــــ", "contactMail": "mostafayassen@ramclinics.com", "rcmMail": "", "bankName": "", "bankAccountNo": "", "bankIban": "", "swiftCode": "AUBBBHBM - AHLI UNITED BANK", "mohLicenseNo": "3120300", "crIssueDate": "90342-2", "cr": "42501", "unifiedNo": "90342-1", "vat": "310152224710003", "region": "البحرين"}], "insuranceCodes": [{"id": "4f7df07f-1f31-4d3e-871c-bef5eb2a4281", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "1765", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "486ed4f9-09ee-4b21-b1f2-9dd849a5db32", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "1760", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "0326552f-ef01-4c5e-ad81-e86b2d2593dd", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "4276", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "b6891eb8-eb6f-40ec-b401-0b0527fe0a82", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "4271", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "6ae4613e-7e6d-479d-a3d6-8668f8959965", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "4275", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "4a0fae4b-aa92-4bc0-b838-43513278104c", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "4277", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "f73ff22a-dee8-4ba6-a468-3a5b975b5c7e", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "4278", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "647564cf-7007-4ed1-bc46-f953e9dc3537", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "2261", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "97068a43-5b0d-485c-876e-959a18ff2ac5", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "2241", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "7ee1ca81-2177-44a1-9633-0416e7544d33", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "1779", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "2d0c252f-9292-4fed-9da8-2293ae7decf2", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "1770", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "ab1e2096-90c6-430c-a01a-1243c20f8d49", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "2240", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "f2b3e6f2-169a-41d1-8e45-7daf8547eca8", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "1763", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "315cb446-ebda-4b01-88d7-84d23e6a595a", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "2248", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "54f8efc0-a815-4cd4-94a1-c3643565c6a3", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "214", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "ebce2ef4-0ac4-4ab5-8fcd-c744cbdfa86a", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "1786", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "f5390d23-ee43-4d5a-b1d2-bed6a2aeed65", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "4274", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "b60c95e5-d787-4a5c-b359-4d0b68752da1", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "JED3 Al Safa", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "5133", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "9fadd6d4-1880-4fc3-a87b-75d107ca5bc2", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "JED4 King Abdulaziz Road", "branch": "JEDDAH 4", "name": "Ram Jeddah Medical Clinics Complex", "providerNo": "5131", "chi": "3005001705", "vatNo": "310152224700003", "nphiesId": "10000300362769", "iban": "2692"}, {"id": "f2da3fd6-4d98-4bfd-941a-dfbc0265a28d", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "1775", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "1a3c2f4a-8d50-43f7-9147-0bf5c1e5318d", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "4279", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "2311109a-9f12-47ee-b701-45385d4684cd", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "1818", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "6a0ded4e-433b-487f-be6f-333a14d3e09d", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "1797", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "b2997c36-298a-4619-8452-fdc0031f6fd4", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "64", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "cba45bb4-6e91-40fd-9c5c-543925c4fc3f", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "4282", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "b1e19840-88aa-4de5-8c8c-48faa77f4d72", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "2226", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "abb5b5a3-93bd-4df7-80bd-262de7fa9891", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "1758", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "69c72b3f-a64a-48fd-9017-51684b4ca0a5", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "4127", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "7550d9b8-b7af-4393-991c-d878af40b9b7", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "4280", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "cf1d3c13-8d8b-4604-a78c-7b4dce47c38a", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "", "branch": "RIYADH 4", "name": "Ram Riyadh Medical Complex", "providerNo": "5130", "chi": "3005001704", "vatNo": "310152224700003", "nphiesId": "10000300363569", "iban": "2718"}, {"id": "dd575d33-d1f0-4a73-9795-8e9bb0ee8163", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "", "branch": "RIYADH 5", "name": "Jewel smile medical center", "providerNo": "5132", "chi": "18086", "vatNo": "310152224700003", "nphiesId": "10000300091236", "iban": "2197"}, {"id": "8633373f-e2f6-410d-8c50-9c7f90e8a9ec", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "", "branch": "SCECO", "name": "Saudi Electricity Medical Company Complex in Dammam", "providerNo": "4680", "chi": "18374", "vatNo": "310152224700003", "nphiesId": "10000300158126", "iban": "2131"}, {"id": "17d73ad8-bfb4-4541-a4ee-adcf45e360be", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "1803", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "d336a4f4-154f-4e32-aa13-891dbb5787f0", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "4129", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "ad3a0dbd-b954-47d9-8b4d-5927a331da15", "primInsuranceCoName": "Al-Etihad Cooperative Insurance Company", "insCode": "3022", "insuranceCo": "AL ETIHAD", "branchPrimeName": "", "branch": "Zara 1", "name": "Zara Dental Clinic company", "providerNo": "5134", "chi": "3005001497", "vatNo": "311631149700003", "nphiesId": "10000300333919", "iban": "5708"}, {"id": "4025d7dd-a806-4513-b95c-96981dafa298", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "6212000994", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "465c230e-b16c-458a-907e-eff6de5122a8", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "6212002057", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "f6177b5d-c2dc-419a-845c-38a37c561180", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "6212005844", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "0b402d27-3f77-4f07-ac4b-8ad8d762f4aa", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "6212005846", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "4994f67e-7f55-48b5-be8a-398dc14c9107", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "6212002508", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "370cbd1a-2271-412d-b7b2-0653d3852992", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "6212005842", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "a36de5f4-1741-43c0-a0ca-d700397de3d9", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "6212005845", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "56725159-cdc4-4c8b-a9bd-37a63a682d93", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "6212000907", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "a9951f92-9ed9-4e6a-8e31-caaf62d4532f", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "6212001006", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "5e3cc9c5-3e2b-48bc-8201-4671abf3885b", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "6212000993", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "79f17be7-b74a-4b0b-b92a-1599f0d73631", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "6212002073", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "0e99b529-bd71-4788-8585-94f39d5393d7", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "6212002074", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "72dc5c72-9966-4df7-bede-47d92f0ab4ea", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "6212002060", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "e75efe86-f308-40ff-ae76-0cbb0f0b6f65", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "6212002075", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "875a23cc-75a4-475c-9ad1-8c0bac350b18", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "6212000271", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "a7523958-95ba-4499-a83f-413d02d37a26", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "6212002058", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "dbe9ec97-a0d0-4b2c-a9e7-8302bbbda360", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "6212005848", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "92444009-f8ed-4210-9c33-80275975ec17", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "6212000998", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "4d07b1a1-cfe0-4c5a-ac3f-afdb7026f19f", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "6212002507", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "ad594d4b-0c28-4736-8426-aeac527f058a", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "6212001002", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "521ed2c1-afda-4e75-b2fd-8654975d3f1a", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "6212001598", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "14f60154-298b-4849-8e32-bda43b78c41e", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "6212002062", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "2542c8c7-66cd-4c96-b718-89423dcd9996", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "6212005849", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "fe99f856-67b9-45fc-b13a-b4e364ad74b5", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "6212002070", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "3c4846b9-35a4-4804-8940-dd337bee2dd6", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "6212001599", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "4f11515c-ec4f-4043-92ae-09556fc0e9bf", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "6212002072", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "101384bc-676c-4993-9bef-7d27f23c5921", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "6212005847", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "a978eaf3-758d-481c-aff7-4ce6be980417", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "6212002059", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "529da678-2459-414c-a5ca-24af632312b6", "primInsuranceCoName": "Alrajhi Takful", "insCode": "1900", "insuranceCo": "AlArajhi Takaful", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "6212005843", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "ddaec9b8-9e3f-47e4-ab0a-e1fff6e8519f", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "8ea841ca-41c9-4072-81e9-9f9e10f8e5e5", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "e942d28f-0441-4631-a2bc-5cd77e81dfd7", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "3ffd1b77-8b6f-4fdd-8e23-34ca8e610583", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "62d1c6b3-4aa7-4c30-8708-f5e793804f16", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "92ae4218-8f6e-4978-816e-1fd348ef15a0", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "f0bb2316-d174-4730-a8fe-bddc6c5b9292", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "3291eec7-050b-4e9c-b32a-c374fc52270c", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "219fbb38-9847-4721-a747-dddcf234ae33", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "acebc90f-0fe6-41dc-97c5-60855453e068", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "0d620d20-bfa6-4cc8-b515-503f32132222", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "bc903198-e83b-4e5d-849b-a131b7737a92", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "03deaa32-ce2e-4e42-9421-5b6cd85c324d", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "d7a708ab-c346-4e7b-bb7b-d5ccfe1d36f9", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "630a0a01-795e-415c-8ea5-d532f3547f66", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "5c533528-8241-46cf-94cb-f1604bfbcea5", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "684770ab-4743-41a2-918d-173317f6ec23", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "cd94ff37-16ba-4450-ba2a-c573fb4fa666", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "JED3 Al Safa", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "368a1673-7895-4fce-9032-2b704dca4d01", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "JED4 King Abdulaziz Road", "branch": "JEDDAH 4", "name": "Ram Jeddah Medical Clinics Complex", "providerNo": "", "chi": "3005001705", "vatNo": "310152224700003", "nphiesId": "10000300362769", "iban": "2692"}, {"id": "28c76012-2dbe-4f46-a408-daaf59419373", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "65cac21d-b8f7-4fbb-bbe5-0ca3bc647aa4", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "82a6ce47-bca9-4893-97a9-8d1f3be15aeb", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "0a5bbae1-328d-4bce-8221-399615e6670c", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "011a7b8a-821f-4d28-b047-ad31dc408244", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "49c52bf3-98e4-4e3f-9749-735c7bf541e6", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "d058a441-dfb2-4dab-bae8-a5650ee8ca13", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "08eea951-a846-4cc8-b87a-a7ccf2f4292a", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "c1e14e25-d14b-48c3-8ba1-cc708f21684f", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "68d72b34-d241-43d1-b10d-d36b98669d64", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "30a86ac8-bb0f-4eff-ac5d-47e3133249ca", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "", "branch": "RIYADH 4", "name": "Ram Riyadh Medical Complex", "providerNo": "", "chi": "3005001704", "vatNo": "310152224700003", "nphiesId": "10000300363569", "iban": "2718"}, {"id": "a4086b24-03fa-451a-8002-eae45d7c9700", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "", "branch": "RIYADH 5", "name": "Jewel smile medical center", "providerNo": "", "chi": "18086", "vatNo": "310152224700003", "nphiesId": "10000300091236", "iban": "2197"}, {"id": "984a9149-ef37-4c62-8cb8-66ba2b40d2db", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "ac82df69-146c-40ad-a3ec-511b6cbe24cd", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "43cff917-d879-4d35-bb9e-284da7af1526", "primInsuranceCoName": "", "insCode": "2000", "insuranceCo": "Arabian Shield", "branchPrimeName": "", "branch": "ZARA 1", "name": "Zara Dental Clinic company", "providerNo": "", "chi": "3005001497", "vatNo": "311631149700003", "nphiesId": "10000300333919", "iban": "5708"}, {"id": "b83684d5-9922-45d5-9299-f4e597e04b4c", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "22424", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "d4e26e9f-06f1-4f8f-a2ce-0ac7a31e26d1", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "23292", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "6ac119c1-10c0-4621-9d21-51a6ccdd6ec2", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "24539", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "aa0b4d50-8cec-49a7-bd66-2c42b26e0766", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "24629", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "3f165167-032d-4e1b-850b-7c732c03a1db", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "24537", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "1d7cc84e-a56f-4536-954d-dc5244bc9ad6", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "24627", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "baad6d44-d7de-4a28-8fd8-33a3fea844b6", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "24541", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "e20263f3-1b29-4605-86a5-b91adafc16cf", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "", "branch": "BAHRAIN", "name": "0", "providerNo": "23302", "chi": "ــــــــــ", "vatNo": "ــــــــــ", "nphiesId": "ــــــــــ", "iban": "2180"}, {"id": "77804425-e448-4d65-94e4-4bf671e4dbc3", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "22228", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "3a20b65d-5482-464d-bb89-b93070e685c1", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "22711", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "9ed542d5-4ac7-4788-8a62-343b3613de30", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "22549", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "c2a662dd-3dd9-4987-a8ff-f1df72ec07ba", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "23453", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "64433d32-8c72-43a5-9535-e5e6928ebb62", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "23461", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "3a38a2a5-c7eb-42e0-99b9-cc8c23d7066b", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "23170", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "34993d8f-4039-423a-821a-588c502fb8a8", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "23884", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "e3b093fa-2b55-4fd7-aa47-8e82026d616a", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "20086", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "8322312e-5fab-4643-9dfb-6bea60d24266", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "23757", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "b87cef9a-0e3d-4df5-bef4-a4a60c56facb", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "24626", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "9a5f8dd2-063b-4f04-87f9-771cc0bea14e", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "22911", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "1f1cb4fc-d6f8-4bf4-a8e1-4806b2b5d8cb", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "24535", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "11f3a6ba-823d-4691-91b2-9b6d147145c8", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "22068", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "c66d08d6-2aa6-4471-a049-1c94279c53b6", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "23039", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "3229aece-805a-4048-8cf0-9294a8435fad", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "23576", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "48026733-645d-4b17-84e3-c2ab723c5120", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "24628", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "6d7e77a1-a8c1-4212-ace5-25efa964ebb6", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "22625", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "72674864-40b0-4e63-93de-486b48d54c58", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "23038", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "5ac01482-4402-429b-9119-5afefaa5f7ca", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "23756", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "28deb5b2-9543-49c9-b1c6-74cd525e03ec", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "24630", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "79455c62-f888-4e53-94b8-e13f38810f1e", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "23320", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "c7c5431b-74b7-4bd8-915f-51ad9a5aa4bb", "primInsuranceCoName": "Bupa", "insCode": "", "insuranceCo": "BUPA", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "24542", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "cd729dec-8e59-4214-ac16-a47fd9951790", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "8476", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "3ad8e315-ffbc-4b94-8985-cbf73202960c", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "17877", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "c7b7298a-7059-45e8-ba36-e2d4039e1d8a", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "17876", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "2d71f6f6-ab75-4a51-a2b9-662eef7c3610", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "8471", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "d48147d0-b26a-4941-bef2-7550cc8ddcc5", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "8475", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "4b3b7cd9-f1bc-4aec-97e9-9262df56bcce", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "17872", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "c4453313-8591-42dc-8262-05dbdf179da5", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "16498", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "dfa16592-70d0-4232-8e0e-aa05ba7fc923", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "17875", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "34d609d7-40a4-4d86-8c12-f183582e518f", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "17873", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "21a89598-a788-45b4-bb45-5dfb597f5f3d", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "5307", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "78faa3e0-1e5b-49f7-9a5e-acbb5031fb00", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "17878", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "3fa5b214-99cb-4d2d-a4d3-abd3702d00a8", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "8477", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "5f7a1a18-1a7c-4779-b721-d0fae032c22b", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "4718", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "c6eea156-b160-4dc2-9b7f-e2590e608d05", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "8472", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "b7772ef7-0cbd-4ce3-8202-8346e0069d9e", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "17666", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "4b743019-65c7-45c3-bb3d-fd4986b9a650", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "8478", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "54b06364-c769-4752-8b05-2e7de65c6fd5", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "17874", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "22b00042-ff5f-49f8-a242-2c33be9584d1", "primInsuranceCoName": "GIG", "insCode": "1000", "insuranceCo": "GIG", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "17879", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "fd091c1a-dbd1-448a-b3b4-44cf13e1d31b", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "E2086", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "7d3e448b-af28-45bd-9af0-4f52e007ded3", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "E522763", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "a3461ad9-253b-467d-a1b7-4144e8fb73aa", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "E564843", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "ffebde50-fb31-44af-938d-ecb546fedeb4", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "E564821", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "c110645f-ff63-4977-a3a3-b8dc2f37ed01", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "E564803", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "8f6edb4a-5e84-4ae5-844a-bac81fdd3896", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "E564825", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "578e334e-b3df-482a-b0b8-b2aa5611327d", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "E564824", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "0facae7e-2459-44a0-acb3-a9ac4f84d399", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "C1720", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "fd58b745-64e0-4d07-a36d-9471e88f7de3", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "E2088", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "48a01dfd-e6d9-4d49-a7de-fe7906d67a89", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "E522761", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "ad0a5e37-a118-434d-8320-9e27f833a5db", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "E522762", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "73721886-ae9e-4513-a3ca-6ec84032cdc4", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "C524461", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "9a434a01-327d-4fe1-b6ab-0a18c1f7f3ba", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "E522767", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "65cd54e6-3e40-4ad7-9030-aace3d6b6995", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "E547641", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "f909421a-d4cf-49ab-a1a7-971e30233d2d", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "C543921", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "eb3c9211-e1ad-4591-aa1b-a8af655832b9", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "C543121", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "432d7679-c63e-4d5a-989e-8c2ec958aedf", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "E564842", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "810663d9-52f0-47c9-b108-d385fdad854a", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "E522764", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "4a138dca-c5a1-4023-97df-387562ee6237", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "E564822", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "6f139fec-182e-4302-9e45-f453fb3cbab6", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "C1875", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "44bf7abd-1f08-4bfc-9e35-20c14fdf7d82", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "E522766", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "54a09b94-a9e0-419c-a22c-442a6c677457", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "C521781", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "30095efa-2e4a-4a3f-9a6d-d9b67e353044", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "E564844", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "30c31506-e965-4871-a1c6-ee397ae329a5", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "E543161", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "3824d2b3-e9ac-49c8-b64e-fb409b903414", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "E522765", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "c265e296-1c25-4bf2-b366-0fdb22d2e0c4", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "C545521", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "a0f8b216-cc90-4fd0-aed6-27bae20a7d71", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "E564841", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "14184f15-4f84-4305-8919-ca27c895576e", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "E522768", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "13c714ec-aaf0-4781-81de-08569252d069", "primInsuranceCoName": "GlobeMed", "insCode": "", "insuranceCo": "GLOBEMED", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "E564823", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "80c61e8c-6a1b-4634-8522-5f3f5c134aba", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "6020201308", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "04a5a691-d908-44bc-8ca8-cde59c5e7ac3", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "6020201309", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "c869a2a1-8709-4252-abe9-1ce7a1364697", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "6020201834", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "910704e3-cf4b-42e3-bee3-f405bb35df8e", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "6020201836", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "be36e34d-07c3-4abb-9d0b-f3adef028be4", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "6020201833", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "b98e2a17-8190-4dcf-af98-c28cf8d7dc2d", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "6020203861", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "fd804a0f-8b64-42a3-a31b-fc6a64062ddb", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "6020201838", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "08d6427e-1888-4dee-a685-73c09674db27", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "6020201302", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "eba5a622-fc3c-49cb-9467-180fac5d13a8", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "6020201305", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "a50c3631-f4a9-4498-8175-4c7dc334f748", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "6020201306", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "2fdbaa8b-04b0-4d9f-bd0d-41c9ef4d259c", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "6020201307", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "feffc8cd-33c4-4cef-84c8-f7132ada1b3f", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "6020201300", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "4769a1b5-4ce8-421f-8be8-626d5d28fe66", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "6020201304", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "cd1cf117-16f0-4188-9a00-c5a0ebb782a9", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "6020201314", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "488b3464-4d6c-4bbc-a4a5-b784314da2ef", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "6020200089", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "9abb446f-2673-42f1-af6b-9a58bd48453b", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "6020201313", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "7aee6c57-45f7-408d-9dd2-f3e39825fb2f", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "6020204215", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "5fa285aa-566d-4b58-a947-b1e0853b885d", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "JED3 Al Safa", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "6020204858", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "9e14fecd-298f-4c01-a00e-5ca0ca62ffee", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "JED4 King Abdulaziz Road", "branch": "JEDDAH 4", "name": "Ram Jeddah Medical Clinics Complex", "providerNo": "6020204857", "chi": "3005001705", "vatNo": "310152224700003", "nphiesId": "10000300362769", "iban": "2692"}, {"id": "8c94ecf7-ad65-491c-8f4d-0e46638bf8ac", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "6020201311", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "1edd7ec8-87bf-4677-891d-a13a3afe3df3", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "6020201837", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "b5f6343a-34c4-4095-ad26-5e4b3ea93214", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "6020201303", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "59318625-87c8-4e64-a09d-f5d4ee41708e", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "6020201299", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "cd2ee55c-cf3d-4367-a63e-b7e4cbc840c3", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "6020201443", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "4c9e3007-6afa-4746-ab4b-c6634b3991c6", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "6020204217", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "da47d9ef-e435-4cca-b4b2-c987a0ef0dac", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "6020200339", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "defc97d1-b365-4141-af2e-3a7daad88542", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "6020201310", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "13fdbbd3-8209-40a9-b039-adc850999ea6", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "6020201301", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "63b77a4d-e7d6-44f8-be21-963daaf86f7f", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "6020204213", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "e742e092-16fa-4d81-b145-0b1c668f2a82", "primInsuranceCoName": "", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "", "branch": "RIYADH 2", "name": "Ram Medical Clinics Compny Complex - BADIAA", "providerNo": "", "chi": "3005002374", "vatNo": "310152224700003", "nphiesId": "10000300373873", "iban": "2171"}, {"id": "251b4b0a-2b29-4c7e-ba1d-9b2556281f1a", "primInsuranceCoName": "", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "", "branch": "RIYADH 3", "name": "Ram Medical Clinics Company Complex -LBN", "providerNo": "", "chi": "3005002370", "vatNo": "310152224700003", "nphiesId": "10000300373436", "iban": "2155"}, {"id": "81548d91-5bd0-403c-9f3c-df5b5de4d1e2", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "", "branch": "RIYADH 4", "name": "Ram Riyadh Medical Complex", "providerNo": "6020204856", "chi": "3005001704", "vatNo": "310152224700003", "nphiesId": "10000300363569", "iban": "2718"}, {"id": "2279ae05-a8e0-408c-b606-f40e3d055f0e", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "", "branch": "RIYADH 5", "name": "Jewel smile medical center", "providerNo": "6020204860", "chi": "18086", "vatNo": "310152224700003", "nphiesId": "10000300091236", "iban": "2197"}, {"id": "34e9c0ee-a1ab-4c2d-ba4c-b5091e503b92", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "", "branch": "SCECO", "name": "Saudi Electricity Medical Company Complex in Dammam", "providerNo": "6020204214", "chi": "18374", "vatNo": "310152224700003", "nphiesId": "10000300158126", "iban": "2131"}, {"id": "a1323203-11fa-44e3-bf71-c1a1bd5a2322", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "6020201312", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "498ed27a-baa9-4fae-8f5d-0d6950cda6a4", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "6020201835", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "da033366-4045-4aae-8ec5-ec22dc30567d", "primInsuranceCoName": "Gulf Union", "insCode": "1800", "insuranceCo": "GULF UNION", "branchPrimeName": "", "branch": "Zara 1", "name": "Zara Dental Clinic company", "providerNo": "6020204859", "chi": "3005001497", "vatNo": "311631149700003", "nphiesId": "10000300333919", "iban": "5708"}, {"id": "14b6e7c5-f392-41ab-ac3b-a0ea488dafe5", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "025000968", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "92f7b8fe-db76-43de-af9d-c3253f62d22d", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "025001490", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "1a0b472b-050d-4730-a09d-b7a5ecfcea97", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "025002349", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "bbf30100-2434-4042-900f-910178a0355c", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "025002350", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "e21f53ab-9105-474c-a1cd-2f1656b39e7d", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "025002089", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "e0bae2d1-17eb-40c1-bde3-691ef8986895", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "025002354", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "95f7cfe6-2dd9-4ac4-906f-686cc89f1242", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "025002352", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "e3c05b8a-499c-41d4-888b-c374a09cb777", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "025001485", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "6f157a5f-1ab5-4d14-ac58-d1f137290202", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "025000970", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "16f57ad9-6511-48b5-b544-9964c8474a51", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "025000971", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "2ccd2b61-71a8-4ab0-ac49-f423d2aa7766", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "025001489", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "4fda4664-6957-443a-ba47-51e581382e40", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "025001184", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "201c2f2f-7994-4c0a-87c4-25566feda464", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "025001488", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "795a8892-6c47-46df-8925-f056f2411004", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "025001486", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "ff9ebb19-fc73-4cfb-95a2-9e48ed230d8a", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "025000809", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "0c9c1beb-3e73-4134-b269-5478d2fa0c68", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "025001687", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "39abdc4c-0ba6-4aef-b4bf-46aebfdb0c86", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "025002356", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "4d0b5084-6a34-4696-92c2-9c52cd03e76b", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "JED3 Al Safa", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "025001664", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "8ae251a6-0725-473a-ad65-973b8e6cf40e", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "025000969", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "73a2a3a7-54f3-4d0f-9eca-6e381feb9cb4", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "025001981", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "7a734d71-bc70-4775-af46-6fc59ab1c0ab", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "025000578", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "2e3decb3-eeb7-4543-97ba-28e5bc606d7f", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "025000979", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "55b961fa-b210-43da-8e5c-3d7270b68255", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "025002351", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "23b7d92c-0726-4022-93a1-2005ec64f625", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "025002357", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "90842c8d-8b9d-4d8f-bd6b-9a91d5791ccc", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "025001688", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "4842da76-301e-45c6-ac49-3ee5219ef2dd", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "025000980", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "42257215-4415-4160-b960-2e40befe8fac", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "025001487", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "4eb0525e-2298-4d0e-8a59-117e9ba05422", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "025002355", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "a019b5fc-006f-4bac-8461-34fe48c5be88", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "025001484", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "685d5094-3a56-42d9-8132-7632f95b7490", "primInsuranceCoName": "Malath", "insCode": "600", "insuranceCo": "MALATH", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "025002353", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "f70ef9e8-e561-4b23-8aed-384f375a10de", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "33993233", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "8f3cca60-3fa6-4e6f-95b4-cfd00a896619", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "84530710", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "31145073-487b-4d44-8a4d-e4533260de40", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "101110214", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "99ba9bfd-c2bb-4f69-8c88-b6a6a6e19ab9", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "101110216", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "e583837f-a044-4479-abfa-84f7e530c465", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "101110211", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "c711cfff-d045-40ad-9a8a-b3157b4c9e1c", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "101110221", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "3621662b-25f2-45ef-83a5-c3660a9d854d", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "101110213", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "e534d466-11d3-46ad-bafb-d74d16bf2b6f", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "", "branch": "BAHRAIN", "name": "0", "providerNo": "56306222", "chi": "ــــــــــ", "vatNo": "ــــــــــ", "nphiesId": "ــــــــــ", "iban": "2180"}, {"id": "fb8ae6ac-3f25-4698-9f5a-b08b2d2e4388", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "35056658", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "777687f9-c1aa-453f-9ea5-6a82a0d26f39", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "33991369", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "52c2f108-14c0-45e8-b9cd-7c2e77bd68b7", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "38273367", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "b0ba5fbb-85da-486b-ba1e-1e66193ac28b", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "1876247", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "58330c2e-1c00-45e2-a7a4-a20d692ab37b", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "89013159", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "eacf21b4-e5e7-4c42-9929-d10656150d25", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "84530678", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "52b53691-2b74-42a1-87d5-137e0528396b", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "2375126", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "dc4aa714-cf8b-4414-89f1-d38907af5b56", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "1606668", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "17bfd67c-7ecd-4f58-a990-5c34c6f08398", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "2375111", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "3d735e2f-9c0b-4aba-967d-7fa2b779806d", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "101110217", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "fe3531c4-b89b-4f97-afb4-b0fcd82acb5b", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "JED3 Al Safa", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "2124338", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "45da5d08-9fb1-43fd-a359-600e3e3c8a13", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "52976143", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "ad83ad40-eb2f-49c1-b7b7-53ee7470f7a4", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "101110218", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "7051f9cd-b824-4e59-bd4b-703330b4bb7e", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "11735960", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "892efcf3-26f7-4942-8a45-242a553b0bde", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "74543467", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "8c5dc856-b127-465c-9485-05d295b68258", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "101110212", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "9932cb94-0e77-434f-83f3-37dae06c9ec1", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "101110215", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "7eef0871-f586-4db0-beca-125bf26601e3", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "12044818", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "1385d4dc-1439-4442-b67f-6c3181ae35ba", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "74543509", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "85e8bbd5-3f88-417a-a28d-db2dea44fa23", "primInsuranceCoName": "NEXTCARE", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "101110219", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "66f6bfb5-9b13-4d55-8113-79a3e8e0f171", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "101110220", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "3fb59e7c-b5bf-4d19-8d4a-d021a572efb3", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "", "branch": "SCECO", "name": "Saudi Electricity Medical Company Complex in Dammam", "providerNo": "2407986", "chi": "18374", "vatNo": "310152224700003", "nphiesId": "10000300158126", "iban": "2131"}, {"id": "5812d947-fb99-4e49-ae52-32012a0bd5c6", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "84530694", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "6d95ab81-1a68-4ebf-89fa-4ca5d24ed59d", "primInsuranceCoName": "Medgulf", "insCode": "700", "insuranceCo": "MEDGULF", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "101110222", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "e7507721-f8dc-415c-a908-d914ae01e641", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "24-15-84", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "1deb1479-31c8-4a12-9d07-c9294ffa8a03", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "24-15-141", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "356c130a-6f6b-4ab0-8d3f-4b680f11a4a2", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "24-15-9", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "bdf61d81-54e2-4f61-80e4-e99dfbb3aa23", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "24-15-46", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "6caa581c-99c9-445a-9eb9-f083ca073fde", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "24-15-90", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "1ea103ed-61cd-464f-8642-e1e4bea5ea4d", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "24-15-140", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "8cdb117f-3a6f-405e-a4e6-434ab2821636", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "24-18-766", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "1d8add46-ac90-43d8-ba72-6c7af3351b71", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "24-15-131", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "568133ec-5278-414c-abb4-86fc8f929155", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "NA", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "8b95b1de-ea12-4e7c-82d6-d183597c9d5a", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "24-18-113", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "eb837070-93c7-44d8-a388-885e063e767a", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "NA", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "38f4186e-d2b2-47e9-ab3b-41241140fc6d", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "24-15-126", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "ebda3a2a-b8ef-414b-8baa-3a1640156d82", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "24-15-7", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "9b492b24-d7f3-4f4e-93cf-92d756f4be02", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "24-15-129", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "b20534b1-adaa-4816-a736-8dbdfba006bf", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "24-15-49", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "1ca7e0a4-dfc1-44a1-9844-58b85308a796", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "24-15-130", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "c873e17b-7289-4844-ab39-325b9bdc6dbb", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "NA", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "2f9489b3-09f3-465e-b311-3f77262b581a", "primInsuranceCoName": "NEXTCARE", "insCode": "203", "insuranceCo": "NEXT CARE", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "24-15-142", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "f7f0ce36-983f-4f08-b821-dd745cf6ee60", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "2216", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "d76bd792-95f4-41fb-af22-aedac520c32b", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "5558", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "1fb4b844-e3ae-4f5b-80c3-e695cf5a6b5b", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "5853", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "29a98010-da13-4862-826a-cd2ed11feba1", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "5854", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "3d98a4d3-b81e-4b32-92b9-d1c2059502c1", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "5848", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "3f3325d5-d910-4a73-8c6d-615fa2651e59", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "8262", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "cd00a44c-1873-4891-9142-27bcfe3c166b", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "8260", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "bcaa17b6-54b3-48f5-b0bf-37c4a9099844", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "5555", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "31523570-1090-49b3-b2c5-259faf442ab2", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "2214", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "7ff0213d-3150-454d-a5c7-669faff3cefc", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "2215", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "cc6b97cc-67a6-490e-8c46-65dc52b43944", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "5852", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "8f93d4ef-c1cd-4bee-9b47-ffae2e27f733", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "8259", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "be1fd42d-6f96-4beb-ba0c-878805035c62", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "5556", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "68a3f7b4-2637-4c62-9d98-99f1bd2b69a7", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "5851", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "f5007ebe-cde3-49e4-a46a-b217853499c9", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "5159", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "f01232ea-2e19-46b3-9088-b649f0d38100", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "5557", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "393c6a24-ec9f-48e4-b243-cbafd8c61bc1", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "8263", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "84b77601-7ee7-43e4-9c67-c6d2a10cacfd", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Jeddah3", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "8630", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "50215c2d-aff4-4ce2-a03d-91c0a695d334", "primInsuranceCoName": "", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "JEDDAH 4", "branch": "JEDDAH 4", "name": "Ram Jeddah Medical Clinics Complex", "providerNo": "", "chi": "3005001705", "vatNo": "310152224700003", "nphiesId": "10000300362769", "iban": "2692"}, {"id": "c3cbf36f-1a24-444b-931a-e67cd3c6bc01", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "3561", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "d7277b5c-5d96-43e9-82b5-5793cac3a17f", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "5849", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "24517f16-d8eb-4b99-b105-6dcc0df9b60e", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "993", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "fcd00736-c4a9-47be-b124-6b63b7b0b139", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "3757", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "e02c44e1-5cda-4d99-aab5-a57d6d2099fa", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "5145", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "7c18c929-f69d-424c-863f-e72105f6f2d1", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "8261", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "33563363-4aba-4c3c-b517-502820d5315e", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "1688", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "32f8a27c-30a3-44b8-8065-31277de48db4", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "3758", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "4e85f512-3413-4b5a-81cb-eb0685d33799", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "5850", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "8bcfea4f-ae49-4ca3-8510-78d9de00f0ab", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "8233", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "99e81f3f-17ac-435f-a8e5-edec24ea6ce0", "primInsuranceCoName": "", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "RIYADH 4", "branch": "RIYADH 4", "name": "Ram Riyadh Medical Complex", "providerNo": "", "chi": "3005001704", "vatNo": "310152224700003", "nphiesId": "10000300363569", "iban": "2718"}, {"id": "325ad045-79f9-4a84-819a-d8f3ca937d3d", "primInsuranceCoName": "", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "RIYADH 5", "branch": "RIYADH 5", "name": "Jewel smile medical center", "providerNo": "", "chi": "18086", "vatNo": "310152224700003", "nphiesId": "10000300091236", "iban": "2197"}, {"id": "a52315ff-3963-44aa-ae72-e110d75055c8", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "", "branch": "SCECO", "name": "Saudi Electricity Medical Company Complex in Dammam", "providerNo": "8204", "chi": "18374", "vatNo": "310152224700003", "nphiesId": "10000300158126", "iban": "2131"}, {"id": "579a2069-9b0d-454d-9841-68649c5f2058", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "5554", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "1f51530c-0597-47d5-a42d-bfc0b8dfd0e8", "primInsuranceCoName": "Saico", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "8265", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "940e6cd3-c3ab-4fc2-8177-717fae7f8779", "primInsuranceCoName": "", "insCode": "1400", "insuranceCo": "SAICO", "branchPrimeName": "Zara 1", "branch": "Zara 1", "name": "Zara Dental Clinic company", "providerNo": "", "chi": "3005001497", "vatNo": "311631149700003", "nphiesId": "10000300333919", "iban": "5708"}, {"id": "509472e1-bdbe-42ba-9fbf-d31e6ba67d02", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "550961", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "4bd5d0cb-eda1-4908-af73-1b7d91cac351", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "555331", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "9fbeea1d-a623-4fd0-b67f-047654c4393d", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "560647", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "75d07736-99f6-42b6-b686-82fc4edfee6f", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "560639", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "f5f7eb76-e4f3-4621-91a0-a8804069ac75", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "560640", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "d40467ea-2ee9-472a-83c2-1aba56929cf6", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "560666", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "25d8d0b7-70c7-4ba9-9aa3-ccd10c148d3b", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "560642", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "b5bc779b-47a2-4356-8853-0c552d679fe5", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "550065", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "584e6a78-62b5-4d92-9692-5da99ae47e25", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "550960", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "ae5d4f19-3df3-4b24-b331-59fe1e6d4b42", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "551429", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "03076b4c-5b61-4559-a82e-cafdc54d0353", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "555850", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "48058e33-1d1a-46a6-a878-553bc1d4d36c", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "555997", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "ecf6c1da-97db-4b7a-a0c1-1eb671cd25bb", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "555421", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "21de77a3-f213-4184-86e8-1af6c06d12ae", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "560641", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "cfe100c8-152f-46f1-904d-3c66aa24ec82", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "550041", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "42fe7833-52d7-43aa-bb54-56f32bbef432", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "558623", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "8a2dda95-8a2e-469f-999f-3a1508aa1b38", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "560823", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "df7642e0-4895-403e-80cd-0ea429655dfa", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "553413", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "d3fd494d-63ae-4490-8a6c-7024bda95a2c", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "560646", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "5436877f-b820-4555-8265-7bd9944398db", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "531035", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "8af69229-daf2-4ed4-be7f-cd4027fe368e", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "554836", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "1d3cb899-71ce-4b5f-a3f7-ae34d1bd7e04", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "560649", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "dd83854e-0386-4cde-bbf8-4ebbf97b7fab", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "560824", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "dbcc7496-8240-4346-9cfc-8f71288182fa", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "550517", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "2dfb6a41-4c5b-4261-b0a4-98535e029e82", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "554835", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "3860aa69-938e-4c59-9585-68c6ee5b096b", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "560650", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "86f010c0-2fc4-4dde-817e-88c47b70f1f8", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "560821", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "e30cb4cc-a5dd-4dde-bace-050b5569325c", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "555332", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "fef335f5-d4b3-44fe-9c0d-10aa1fa99467", "primInsuranceCoName": "Tawuniya", "insCode": "800", "insuranceCo": "Tawuniya", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "560651", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "922f4ab3-8903-4d5e-9b98-5dae92482d32", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Mubaraz", "branch": "AHSSA 1", "name": "Ram Dental Clinics Complex Al-Ahsa  1", "providerNo": "DEN - 336", "chi": "17585", "vatNo": "310152224700003", "nphiesId": "10000300089974", "iban": "2255"}, {"id": "51fa2116-e8e9-4c25-aa9b-0f4de2c2158e", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Hofuf", "branch": "AHSSA 2", "name": "Ceram Medical Company - Al-Ahsa 2", "providerNo": "DEN - 442", "chi": "18224", "vatNo": "310152224700003", "nphiesId": "10000300162136", "iban": "2263"}, {"id": "b03e0bbe-f31b-431e-b629-aa21497102bf", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Al Aziziyah", "branch": "Al Azizia", "name": "Ram Medical Clinics Company Complex in Al Aziziyah Khobar", "providerNo": "DEN-862", "chi": "19754", "vatNo": "310152224700003", "nphiesId": "10000300283486", "iban": "2354"}, {"id": "8bd32757-7925-4c8a-84be-a9d619c9d8f1", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Al Fakheriyah", "branch": "Al Fakhria", "name": "Ram Medical Clinics Company Fakhria", "providerNo": "DEN-863", "chi": "19753", "vatNo": "310152224700003", "nphiesId": "10000300282983", "iban": "2362"}, {"id": "893c12a7-6198-4a74-815d-b6699b685e34", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Abu Bakr", "branch": "Al Manar", "name": "Ram Medical Clinics Complex - Abu Bakr", "providerNo": "DEN-861", "chi": "19616", "vatNo": "310152224700003", "nphiesId": "10000300255781", "iban": "2123"}, {"id": "eb731075-c570-492a-b7fe-6ea8ed210177", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Ash Shati", "branch": "Al Shatea", "name": "Ram Medical Clinics Company Al Mazrouiah", "providerNo": "DEN-866", "chi": "19852", "vatNo": "310152224700003", "nphiesId": "10000300302252", "iban": "2388"}, {"id": "47d085b9-7817-42ee-8b34-fd3ad15af397", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Al Waha", "branch": "Al Waha", "name": "Ram Medical Clinics Company Al-Waha", "providerNo": "DEN-865", "chi": "19816", "vatNo": "310152224700003", "nphiesId": "10000300294830", "iban": "2370"}, {"id": "a0318743-01d4-437c-85ee-f35f9270749f", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Rakah", "branch": "BASAMAT", "name": "Ram Basmat Medical Company", "providerNo": "DEN - 303", "chi": "17388", "vatNo": "310152224700003", "nphiesId": "10000300109293", "iban": "2180"}, {"id": "d19a17e7-eafd-4634-972a-0a0b9b54ffd6", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Mubarkyah", "branch": "DAMM 1", "name": "Ram Medical Clinics Complex - Dammam 1", "providerNo": "DEN - 4", "chi": "17538", "vatNo": "310152224700003", "nphiesId": "10000300092176", "iban": "2081"}, {"id": "b074787e-46a4-47d4-8bf7-cbaf8a63fb58", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Murikbat", "branch": "DAMM 2", "name": "Ram Medical Clinics Complex - Dammam 2", "providerNo": "DEN - 350", "chi": "17633", "vatNo": "310152224700003", "nphiesId": "10000300102165", "iban": "2099"}, {"id": "039bad68-76bb-4b92-9c3e-da73fa79544e", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Buhairah", "branch": "DAMM 3", "name": "Ram Medical Complex - Dammam 3", "providerNo": "DEN - 445", "chi": "18488", "vatNo": "310152224700003", "nphiesId": "10000300088240", "iban": "2107"}, {"id": "02c6d4ce-9737-4562-a026-a01a1f0f498b", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Al Faisaliah", "branch": "DAMM 4", "name": "Ram Dammam Medical Company - Al Faisaliah", "providerNo": "MDC - 2457", "chi": "18511", "vatNo": "310152224700003", "nphiesId": "10000300198411", "iban": "2115"}, {"id": "4b1f2163-78b8-4d2c-9f9d-e8fbc8200982", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Dar Ram", "branch": "Dar Ram", "name": "Dar Ram Dental and Derma Company", "providerNo": "DEN - 446", "chi": "17920", "vatNo": "310152224700003", "nphiesId": "10000300200696", "iban": "2164"}, {"id": "bdf76eda-f6bf-4817-8f8c-38a4206fc0d1", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Doha", "branch": "DAWHA", "name": "Ram Medical Clinics Complex Aldhahran", "providerNo": "DEN - 831", "chi": "19028", "vatNo": "310152224700003", "nphiesId": "10000300204227", "iban": "2172"}, {"id": "934b780c-aba2-43c4-bf61-4901bdc42300", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Doha Medical Complex", "branch": "Doha Medical Clinics", "name": "Doha Medical Complex - Dhahran", "providerNo": "DIS - 286", "chi": "18680", "vatNo": "300406898100003", "nphiesId": "10000300105176", "iban": "5617"}, {"id": "066951d1-c6ea-4518-8129-2a9a4bf3a625", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Jeddah", "branch": "JEDAH", "name": "Ram Medical Clinics Company - Jeddah", "providerNo": "DEN - 828", "chi": "18782", "vatNo": "310152224700003", "nphiesId": "10000300186820", "iban": "2230"}, {"id": "131c3e7b-bb33-4912-bfb4-fd48ef94869e", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Jeddah2", "branch": "JEDDAH 2", "name": "Ram Medical Clinics Complex Jeddah AlBasateen", "providerNo": "MDC3154", "chi": "19958", "vatNo": "310152224700003", "nphiesId": "10000300317219", "iban": "8831"}, {"id": "ea7f96eb-9b02-42c3-993b-f64820c0252b", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "JED3 Al Safa", "branch": "JEDDAH 3", "name": "Specialized Dental and Dental Implant Complex", "providerNo": "Den-786", "chi": "18526", "vatNo": "300281292200003", "nphiesId": "10000300107818", "iban": "2163"}, {"id": "3c330a43-c28c-40ec-a08e-1a0b04ea25bc", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "JED4 King Abdulaziz Road", "branch": "JEDDAH 4", "name": "Ram Jeddah Medical Clinics Complex", "providerNo": "DEN898", "chi": "3005001705", "vatNo": "310152224700003", "nphiesId": "10000300362769", "iban": "2692"}, {"id": "c073b385-17a5-40b7-929a-f884dff0b04f", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Jubail Industrial", "branch": "JUBAIL", "name": "Ram Al-Jubail Medical Company", "providerNo": "DEN - 403", "chi": "17815", "vatNo": "310152224700003", "nphiesId": "10000300200175", "iban": "2321"}, {"id": "a3486db8-d82d-4754-9495-b28c02f0164d", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram AlKhafji", "branch": "Khafgi", "name": "Ram Medical Clinics Complex Khafji", "providerNo": "DEN-864", "chi": "19481", "vatNo": "310152224700003", "nphiesId": "10000300218664", "iban": "2305"}, {"id": "232ee6a1-8d0d-4d3a-9f35-7a68c555e1c3", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Alaqrabiah", "branch": "KHOBAR 1", "name": "Ram Al-Khobar Medical Company", "providerNo": "DEN - 287", "chi": "17180", "vatNo": "310152224700003", "nphiesId": "10000300202767", "iban": "2149"}, {"id": "b35fcc88-0a34-409f-94ba-945904af57a2", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Khober Shamaliah", "branch": "KHOBAR 2", "name": "Ram Al-Khobar Medical Company - Khobar 2", "providerNo": "DEN - 421", "chi": "17882", "vatNo": "310152224700003", "nphiesId": "10000300174024", "iban": "2156"}, {"id": "07b329c5-c864-4215-b73a-6aaffa29654e", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Madinah", "branch": "MADINA 1", "name": "Ram Medical Clinics Complex - Al-Shuhadaa", "providerNo": "MDC-2517", "chi": "18316", "vatNo": "310152224700003", "nphiesId": "10000300186697", "iban": "2495"}, {"id": "46025c96-584f-40a3-87cb-b470a62b6f84", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Madinah 2", "branch": "MADINA 2", "name": "Ram Medical Clinics Complex Aldefaa", "providerNo": "MDC3155", "chi": "20031", "vatNo": "310152224700003", "nphiesId": "10000300324108", "iban": "8815"}, {"id": "7e60ac4e-34f8-4db2-bf7f-feb370671436", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Olaya", "branch": "OLAYA", "name": "Ram Medical Clinics Complex - Olaya", "providerNo": "DEN - 439", "chi": "17164", "vatNo": "310152224700003", "nphiesId": "10000300207964", "iban": "2198"}, {"id": "fdd627a2-444f-414f-a0c2-7add0ae29ccb", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Qatif", "branch": "QATIF", "name": "Ram Al-Qatif Medical Company", "providerNo": "DEN - 422", "chi": "17880", "vatNo": "310152224700003", "nphiesId": "10000300074208", "iban": "2248"}, {"id": "8ce716ce-0e2a-466c-be48-119ee74fa170", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Rahema", "branch": "RAS TANWROA", "name": "Ram Rahima Medical Company", "providerNo": "DEN - 829", "chi": "18846", "vatNo": "310152224700003", "nphiesId": "10000300198262", "iban": "2214"}, {"id": "3734bdaf-fd85-47a8-8bae-83f2bc9cda8a", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram RUH T1", "branch": "RIYADH", "name": "Ram Medical Clinics Company Riydh", "providerNo": "MDC3153", "chi": "20020", "vatNo": "310152224700003", "nphiesId": "10000300323803", "iban": "3732"}, {"id": "b0c06e26-3e0c-4edf-9b2f-1228af7bd78c", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "", "branch": "RIYADH 4", "name": "Ram Riyadh Medical Complex", "providerNo": "DEN897", "chi": "3005001704", "vatNo": "310152224700003", "nphiesId": "10000300363569", "iban": "2718"}, {"id": "00c6122d-eb89-4045-b361-551e62d52f83", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "", "branch": "RIYADH 5", "name": "Jewel smile medical center", "providerNo": "DEN899", "chi": "18086", "vatNo": "310152224700003", "nphiesId": "10000300091236", "iban": "2197"}, {"id": "b754423c-67ab-4010-a22c-885b0ecc53d8", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Yanbu Industrial", "branch": "YANBU", "name": "Ram Yanbu Medical Company Specialized Medical Complex", "providerNo": "DEN - 441", "chi": "18336", "vatNo": "310152224700003", "nphiesId": "10000300097902", "iban": "2339"}, {"id": "d0870481-281d-4201-a73c-e786df68b413", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "Ram Yanbu Al Bahr", "branch": "YANBU 2", "name": "Ram Medical Clinics Company Yanbu Al Bandar", "providerNo": "DEN-867", "chi": "19815", "vatNo": "310152224700003", "nphiesId": "10000300288915", "iban": "2347"}, {"id": "bb44b86d-5344-4936-a129-9a632bb4e661", "primInsuranceCoName": "TCS", "insCode": "", "insuranceCo": "TCS", "branchPrimeName": "", "branch": "ZARA 1", "name": "Zara Dental Clinic company", "providerNo": "DEN900", "chi": "3005001497", "vatNo": "311631149700003", "nphiesId": "10000300333919", "iban": "5708"}], "credentials": [{"id": "6b9ec467-e6ee-4a5d-bf4e-f093fbc1db29", "branchNameEn": "SAUDI SWISS CONSULTANT CENTER LTD.CO.", "waseelId": "ssc", "cchi": "17164", "category": "Dental", "status": "Contacted"}, {"id": "30e2a904-18ac-43a8-9631-6ca999a2948b", "branchNameEn": "Ram Al-Khobar Medical Company", "waseelId": "ram", "cchi": "17180", "category": "Dental", "status": "Contacted"}, {"id": "addd9a36-f712-4889-8588-7acc699b515a", "branchNameEn": "Ram Basmat Medical Company", "waseelId": "bsmt", "cchi": "17388", "category": "Dental", "status": "Contacted"}, {"id": "bfd058d7-50c4-4507-bdc8-9e451fe580fc", "branchNameEn": "Ram Medical Clinics Complex - Dammam 1", "waseelId": "ramd", "cchi": "17538", "category": "Dental", "status": "Contacted"}, {"id": "8eb17f6f-254e-427a-86d1-1b27898399a8", "branchNameEn": "Ram Dental Clinics Complex Al-Ahsa  1", "waseelId": "rama", "cchi": "17585", "category": "Dental", "status": "Contacted"}, {"id": "879ec937-37a2-4f6a-b001-4bd40aa45217", "branchNameEn": "Ram Medical Clinics Complex - Dammam 2", "waseelId": "ramm", "cchi": "17633", "category": "Dental", "status": "Contacted"}, {"id": "d3c8ff49-e6c9-408f-8d8e-1102317b3be1", "branchNameEn": "Ram Al-Jubail Medical Company", "waseelId": "wrdc", "cchi": "17815", "category": "Dental", "status": "Contacted"}, {"id": "53211d91-3478-4e26-abbc-d213b4f6d5e8", "branchNameEn": "Ram Al-Qatif Medical Company", "waseelId": "ramQT", "cchi": "17880", "category": "Dental", "status": "Contacted"}, {"id": "52707af9-54b3-4589-a2fc-af70dcb9ddbd", "branchNameEn": "Ram Al-Khobar Medical Company - Khobar 2", "waseelId": "ramkh", "cchi": "17882", "category": "Dental", "status": "Contacted"}, {"id": "4b02d30e-8dc8-4ac9-abdc-0d9e0a8d8b6c", "branchNameEn": "DAR RAM DERMA & DENTAL CARE CLINICS", "waseelId": "ramd", "cchi": "17920", "category": "Dental", "status": "Contacted"}, {"id": "e357687d-72b7-472a-b57b-a2d6ccb080bf", "branchNameEn": "Ceram Medical Company - Al-Ahsa 2", "waseelId": "cram", "cchi": "18224", "category": "Dental", "status": "Contacted"}, {"id": "91ad6064-e156-4765-88e6-3fed5959c821", "branchNameEn": "Ram Yanbu Medical Company", "waseelId": "ramy", "cchi": "18336", "category": "Dental", "status": "Contacted"}, {"id": "2079e9fd-2332-4ec0-a510-0fa7897f6573", "branchNameEn": "Ram Medical Complex - Dammam 3", "waseelId": "rddm", "cchi": "18488", "category": "Dental", "status": "Contacted"}, {"id": "0a3012ae-bca7-4dc4-b751-b681de22fff8", "branchNameEn": "Ram Dammam Medical Company - Al Faisaliah", "waseelId": "alam", "cchi": "18511", "category": "Polyclinic", "status": "Not Contracted"}, {"id": "d350c566-def2-4885-a3ce-fb81993a38c9", "branchNameEn": "Doha Medical Complex - Dhahran", "waseelId": "doha", "cchi": "18680", "category": "Polyclinic", "status": "Contacted"}, {"id": "df9f8451-f8aa-41b5-b9b6-d5a94aa2ff98", "branchNameEn": "Ram Medical Clinics Company - Jeddah", "waseelId": "ramj", "cchi": "18782", "category": "Dental", "status": "Contacted"}, {"id": "a21a05ca-dd6f-40e9-8454-a1716e9862fb", "branchNameEn": "Ram Rahima Medical Company", "waseelId": "ramr", "cchi": "18846", "category": "Dental", "status": "Not Contracted"}, {"id": "916dd543-8fc8-4e3c-83a9-ca88ec7de5ed", "branchNameEn": "Ram Medical Complex - Doha", "waseelId": "ramcd", "cchi": "19028", "category": "Dental", "status": "Contacted"}, {"id": "27a204f8-7907-46a1-9c10-89d40bb5bb6d", "branchNameEn": "Ram Medical Clinics Complex -Al-Khafji", "waseelId": "ـــــــــــــــــــــــــ", "cchi": "19481", "category": "Dental", "status": "Not Contracted"}, {"id": "d9bdc019-592a-4e14-ba9e-5e2281c9866c", "branchNameEn": "Ram Medical Care -Abu Baker", "waseelId": "ـــــــــــــــــــــــــ", "cchi": "19616", "category": "Dental", "status": "Not Contracted"}, {"id": "ada0cd80-7c13-4ca6-8cde-c8eea5b2239e", "branchNameEn": "Ram Medical Clinics Company - Al Fakhriya", "waseelId": "ـــــــــــــــــــــــــ", "cchi": "19753", "category": "Dental", "status": "Not Contracted"}, {"id": "e90a3826-914d-43aa-b686-963d5ffcdd73", "branchNameEn": "Ram Medical Clinics Company Complex in Al-Azizia Al-Khobar", "waseelId": "ـــــــــــــــــــــــــ", "cchi": "19754", "category": "Dental", "status": "Not Contracted"}], "updatedAt": ""};
+
+/* =========================================================
+   طبقة التخزين المحلي LocalStorage
+   ========================================================= */
+const STORAGE_KEY = 'ramBranchesPortalData';
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(parsed && Array.isArray(parsed.branches) && Array.isArray(parsed.insuranceCodes) && Array.isArray(parsed.credentials)){
+        return parsed;
+      }
+    }
+  }catch(e){
+    console.error('تعذر قراءة البيانات المحفوظة، سيتم تحميل البيانات الأصلية', e);
+  }
+  // لا توجد بيانات محفوظة صالحة => تحميل بيانات الإكسل الأصلية
+  const seedCopy = JSON.parse(JSON.stringify(SEED_DATA));
+  seedCopy.updatedAt = new Date().toISOString();
+  saveData(seedCopy, false);
+  return seedCopy;
+}
+
+function saveData(data, notify){
+  try{
+    data.updatedAt = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    if(notify !== false){
+      showToast('success', 'تم حفظ التغييرات بنجاح');
+    }
+    return true;
+  }catch(e){
+    console.error(e);
+    showToast('error', 'فشل حفظ البيانات في التخزين المحلي: ' + e.message);
+    return false;
+  }
+}
+
+let DB = loadData();
+
+/* =========================================================
+   دوال مساعدة عامة
+   ========================================================= */
+
+// حماية من حقن HTML عند عرض أي قيمة مدخلة من المستخدم
+function escapeHtml(value){
+  if(value === null || value === undefined) return '';
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function showToast(type, message){
+  const host = document.getElementById('toastHost');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = message;
+  host.appendChild(el);
+  setTimeout(() => { el.remove(); }, 4200);
+}
+
+function formatDateTime(iso){
+  if(!iso) return '—';
+  try{
+    const d = new Date(iso);
+    return d.toLocaleString('ar-SA');
+  }catch(e){
+    return iso;
+  }
+}
+
+function normalize(str){
+  return (str === null || str === undefined) ? '' : String(str).toLowerCase();
+}
+
+/* =========================================================
+   التبويبات (Tabs)
+   ========================================================= */
+const tabsNav = document.getElementById('tabsNav');
+let activePage = 'dashboard';
+
+tabsNav.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-page]');
+  if(!btn) return;
+  setActivePage(btn.dataset.page);
+});
+
+function setActivePage(page){
+  activePage = page;
+  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
+  if(page === 'dashboard') renderDashboard();
+}
+
+/* =========================================================
+   عرض لوحة المؤشرات
+   ========================================================= */
+function renderDashboard(){
+  document.getElementById('statBranches').textContent = DB.branches.length;
+  document.getElementById('statInsurance').textContent = DB.insuranceCodes.length;
+  document.getElementById('statCredentials').textContent = DB.credentials.length;
+  document.getElementById('statUpdatedAt').textContent = formatDateTime(DB.updatedAt);
+
+  renderDistribution('cityDistribution', groupCount(DB.branches, b => b.city || 'غير محدد'));
+  renderDistribution('categoryDistribution', groupCount(DB.branches, b => b.category || 'غير محدد'));
+}
+
+function groupCount(list, keyFn){
+  const map = {};
+  list.forEach(item => {
+    const k = keyFn(item) || 'غير محدد';
+    map[k] = (map[k] || 0) + 1;
+  });
+  return Object.entries(map).sort((a,b) => b[1]-a[1]);
+}
+
+function renderDistribution(containerId, entries){
+  const container = document.getElementById(containerId);
+  if(entries.length === 0){
+    container.innerHTML = '<div style="color:var(--gray-600);font-size:13px;">لا توجد بيانات</div>';
+    return;
+  }
+  const max = Math.max(...entries.map(e => e[1]));
+  container.innerHTML = entries.map(([label, count]) => `
+    <div class="bar-row">
+      <div class="bar-label" title="${escapeHtml(label)}">${escapeHtml(label)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(count/max*100).toFixed(1)}%"></div></div>
+      <div class="bar-count">${count}</div>
+    </div>
+  `).join('');
+}
+
+/* =========================================================
+   تعريف الكيانات: الحقول، الجداول، البحث
+   ========================================================= */
+const ENTITIES = {
+  branches: {
+    list: () => DB.branches,
+    tbody: 'branchesTbody',
+    countEl: 'branchesCount',
+    searchInput: 'searchBranches',
+    colCount: 9,
+    searchFields: ['nameAr','nameEn','city','cchi','tel','region','unifiedNo'],
+    fields: [
+      {key:'no', label:'الرقم', required:false},
+      {key:'nameAr', label:'اسم الفرع (عربي)', required:true, full:true},
+      {key:'nameEn', label:'اسم الفرع (إنجليزي)', required:true, full:true},
+      {key:'category', label:'الفئة', type:'select', options:['Dental','Medical','Other'], required:true},
+      {key:'city', label:'المدينة', required:true},
+      {key:'region', label:'المنطقة'},
+      {key:'tel', label:'الهاتف'},
+      {key:'cchi', label:'رقم CCHI'},
+      {key:'addressAr', label:'العنوان (عربي)', full:true},
+      {key:'addressEn', label:'العنوان (إنجليزي)', full:true},
+      {key:'contactMail', label:'البريد الإلكتروني للتواصل'},
+      {key:'rcmMail', label:'بريد إدارة دورة الإيرادات'},
+      {key:'bankName', label:'اسم البنك'},
+      {key:'bankAccountNo', label:'رقم الحساب البنكي'},
+      {key:'bankIban', label:'IBAN'},
+      {key:'swiftCode', label:'رمز السويفت'},
+      {key:'mohLicenseNo', label:'رقم ترخيص وزارة الصحة'},
+      {key:'crIssueDate', label:'تاريخ إصدار السجل التجاري'},
+      {key:'cr', label:'رقم السجل التجاري'},
+      {key:'unifiedNo', label:'الرقم الموحد'},
+      {key:'vat', label:'الرقم الضريبي VAT'},
+    ],
+    renderRow: (r) => `
+      <tr data-id="${r.id}">
+        <td>${escapeHtml(r.no)}</td>
+        <td>${escapeHtml(r.nameAr)}</td>
+        <td>${escapeHtml(r.nameEn)}</td>
+        <td>${escapeHtml(r.city)}</td>
+        <td>${categoryBadge(r.category)}</td>
+        <td>${escapeHtml(r.tel)}</td>
+        <td>${escapeHtml(r.cchi)}</td>
+        <td>${escapeHtml(r.bankIban)}</td>
+        <td class="no-print"><div class="cell-actions">
+          <button class="btn btn-outline btn-sm" data-action="edit" data-entity="branches" data-id="${r.id}">تعديل</button>
+          <button class="btn btn-danger btn-sm" data-action="delete" data-entity="branches" data-id="${r.id}">حذف</button>
+        </div></td>
+      </tr>`,
+    title: 'فرع',
+  },
+  insurance: {
+    list: () => DB.insuranceCodes,
+    tbody: 'insuranceTbody',
+    countEl: 'insuranceCount',
+    searchInput: 'searchInsurance',
+    colCount: 10,
+    searchFields: ['insuranceCo','primInsuranceCoName','insCode','branch','branchPrimeName','name','providerNo','chi','nphiesId'],
+    fields: [
+      {key:'primInsuranceCoName', label:'اسم شركة التأمين الرئيسي', required:true, full:true},
+      {key:'insuranceCo', label:'شركة التأمين (مختصر)', required:true},
+      {key:'insCode', label:'كود التأمين', required:true},
+      {key:'branchPrimeName', label:'اسم الفرع الأساسي'},
+      {key:'branch', label:'الفرع'},
+      {key:'name', label:'اسم الفرع الكامل', full:true},
+      {key:'providerNo', label:'رقم مقدم الخدمة'},
+      {key:'chi', label:'CCHI'},
+      {key:'vatNo', label:'الرقم الضريبي VAT'},
+      {key:'nphiesId', label:'Nphies ID'},
+      {key:'iban', label:'IBAN'},
+    ],
+    renderRow: (r) => `
+      <tr data-id="${r.id}">
+        <td>${escapeHtml(r.insuranceCo)}</td>
+        <td>${escapeHtml(r.insCode)}</td>
+        <td>${escapeHtml(r.branchPrimeName)}</td>
+        <td>${escapeHtml(r.branch)}</td>
+        <td>${escapeHtml(r.name)}</td>
+        <td>${escapeHtml(r.providerNo)}</td>
+        <td>${escapeHtml(r.chi)}</td>
+        <td>${escapeHtml(r.nphiesId)}</td>
+        <td>${escapeHtml(r.iban)}</td>
+        <td class="no-print"><div class="cell-actions">
+          <button class="btn btn-outline btn-sm" data-action="edit" data-entity="insurance" data-id="${r.id}">تعديل</button>
+          <button class="btn btn-danger btn-sm" data-action="delete" data-entity="insurance" data-id="${r.id}">حذف</button>
+        </div></td>
+      </tr>`,
+    title: 'كود تأمين',
+  },
+  credentials: {
+    list: () => DB.credentials,
+    tbody: 'credentialsTbody',
+    countEl: 'credentialsCount',
+    searchInput: 'searchCredentials',
+    colCount: 6,
+    searchFields: ['branchNameEn','waseelId','cchi','status'],
+    fields: [
+      {key:'branchNameEn', label:'اسم الفرع', required:true, full:true},
+      {key:'waseelId', label:'Waseel ID', required:true},
+      {key:'cchi', label:'رقم CCHI'},
+      {key:'category', label:'الفئة', type:'select', options:['Dental','Medical','Other']},
+      {key:'status', label:'الحالة', type:'select', options:['Contacted','Active','Pending','Inactive']},
+    ],
+    renderRow: (r) => `
+      <tr data-id="${r.id}">
+        <td>${escapeHtml(r.branchNameEn)}</td>
+        <td>${escapeHtml(r.waseelId)}</td>
+        <td>${escapeHtml(r.cchi)}</td>
+        <td>${categoryBadge(r.category)}</td>
+        <td>${statusBadge(r.status)}</td>
+        <td class="no-print"><div class="cell-actions">
+          <button class="btn btn-outline btn-sm" data-action="edit" data-entity="credentials" data-id="${r.id}">تعديل</button>
+          <button class="btn btn-danger btn-sm" data-action="delete" data-entity="credentials" data-id="${r.id}">حذف</button>
+        </div></td>
+      </tr>`,
+    title: 'بيانات اعتماد',
+  },
+};
+
+function categoryBadge(cat){
+  const c = normalize(cat);
+  if(c === 'dental') return `<span class="badge badge-dental">${escapeHtml(cat)}</span>`;
+  if(c === 'medical') return `<span class="badge badge-medical">${escapeHtml(cat)}</span>`;
+  if(!cat) return '';
+  return `<span class="badge badge-other">${escapeHtml(cat)}</span>`;
+}
+function statusBadge(status){
+  const s = normalize(status);
+  if(!status) return '';
+  if(s === 'active' || s === 'contacted') return `<span class="badge badge-active">${escapeHtml(status)}</span>`;
+  if(s === 'inactive') return `<span class="badge badge-inactive">${escapeHtml(status)}</span>`;
+  return `<span class="badge badge-pending">${escapeHtml(status)}</span>`;
+}
+
+/* =========================================================
+   عرض الجداول والبحث الفوري
+   ========================================================= */
+const searchState = { branches:'', insurance:'', credentials:'' };
+
+function renderTable(entityKey){
+  const cfg = ENTITIES[entityKey];
+  const tbody = document.getElementById(cfg.tbody);
+  const q = normalize(searchState[entityKey]);
+  let rows = cfg.list();
+  if(q){
+    rows = rows.filter(r => cfg.searchFields.some(f => normalize(r[f]).includes(q)));
+  }
+  if(rows.length === 0){
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="${cfg.colCount}">لا توجد نتائج مطابقة${q ? ' لبحثك' : ''}</td></tr>`;
+  }else{
+    tbody.innerHTML = rows.map(cfg.renderRow).join('');
+  }
+  const countEl = document.getElementById(cfg.countEl);
+  if(countEl){
+    countEl.textContent = `عرض ${rows.length} من ${cfg.list().length} سجل`;
+  }
+}
+
+function renderAll(){
+  renderTable('branches');
+  renderTable('insurance');
+  renderTable('credentials');
+  renderDashboard();
+}
+
+Object.keys(ENTITIES).forEach(key => {
+  const cfg = ENTITIES[key];
+  const input = document.getElementById(cfg.searchInput);
+  input.addEventListener('input', () => {
+    searchState[key] = input.value;
+    renderTable(key);
+  });
+});
+
+// تفويض النقر على أزرار التعديل/الحذف داخل الجداول
+document.querySelectorAll('.table-wrap').forEach(wrap => {
+  wrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    const { action, entity, id } = btn.dataset;
+    if(action === 'edit') openEditForm(entity, id);
+    if(action === 'delete') openDeleteConfirm(entity, id);
+  });
+});
+
+/* =========================================================
+   نموذج الإضافة / التعديل
+   ========================================================= */
+const formOverlay = document.getElementById('formOverlay');
+const formFieldsContainer = document.getElementById('formFieldsContainer');
+const recordForm = document.getElementById('recordForm');
+const formModalTitle = document.getElementById('formModalTitle');
+let formState = { entity:null, id:null };
+
+document.getElementById('btnAddBranch').addEventListener('click', () => openAddForm('branches'));
+document.getElementById('btnAddInsurance').addEventListener('click', () => openAddForm('insurance'));
+document.getElementById('btnAddCredential').addEventListener('click', () => openAddForm('credentials'));
+
+function openAddForm(entity){
+  formState = { entity, id:null };
+  const cfg = ENTITIES[entity];
+  formModalTitle.textContent = 'إضافة ' + cfg.title;
+  buildFormFields(cfg, {});
+  formOverlay.classList.add('open');
+}
+
+function openEditForm(entity, id){
+  const cfg = ENTITIES[entity];
+  const record = cfg.list().find(r => r.id === id);
+  if(!record){ showToast('error', 'تعذر العثور على السجل المطلوب'); return; }
+  formState = { entity, id };
+  formModalTitle.textContent = 'تعديل ' + cfg.title;
+  buildFormFields(cfg, record);
+  formOverlay.classList.add('open');
+}
+
+function buildFormFields(cfg, record){
+  formFieldsContainer.innerHTML = cfg.fields.map(f => {
+    const val = escapeHtml(record[f.key] ?? '');
+    const req = f.required ? 'required' : '';
+    const mark = f.required ? '<span class="required-mark"> *</span>' : '';
+    if(f.type === 'select'){
+      const opts = f.options.map(o => `<option value="${escapeHtml(o)}" ${record[f.key]===o?'selected':''}>${escapeHtml(o)}</option>`).join('');
+      return `<div class="form-field ${f.full?'full':''}">
+        <label for="fld_${f.key}">${f.label}${mark}</label>
+        <select id="fld_${f.key}" name="${f.key}" ${req}>
+          <option value="">— اختر —</option>
+          ${opts}
+        </select>
+      </div>`;
+    }
+    return `<div class="form-field ${f.full?'full':''}">
+      <label for="fld_${f.key}">${f.label}${mark}</label>
+      <input type="text" id="fld_${f.key}" name="${f.key}" value="${val}" ${req}>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('formModalClose').addEventListener('click', closeFormModal);
+document.getElementById('formCancelBtn').addEventListener('click', closeFormModal);
+formOverlay.addEventListener('click', (e) => { if(e.target === formOverlay) closeFormModal(); });
+
+function closeFormModal(){
+  formOverlay.classList.remove('open');
+  recordForm.reset();
+}
+
+recordForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const { entity, id } = formState;
+  const cfg = ENTITIES[entity];
+  const formData = new FormData(recordForm);
+  const values = {};
+  let missingRequired = false;
+  cfg.fields.forEach(f => {
+    const v = (formData.get(f.key) || '').toString().trim();
+    if(f.required && !v) missingRequired = true;
+    values[f.key] = v;
+  });
+  if(missingRequired){
+    showToast('error', 'يرجى تعبئة جميع الحقول الإلزامية المطلوبة');
+    return;
+  }
+  if(id){
+    const record = cfg.list().find(r => r.id === id);
+    Object.assign(record, values);
+    showToast('success', 'تم تحديث بيانات ' + cfg.title + ' بنجاح');
+  }else{
+    values.id = crypto.randomUUID();
+    cfg.list().push(values);
+    showToast('success', 'تمت إضافة ' + cfg.title + ' جديد بنجاح');
+  }
+  saveData(DB, false);
+  closeFormModal();
+  renderAll();
+});
+
+/* =========================================================
+   تأكيد وتنفيذ الحذف
+   ========================================================= */
+const confirmOverlay = document.getElementById('confirmOverlay');
+let deleteTarget = { entity:null, id:null };
+
+function openDeleteConfirm(entity, id){
+  deleteTarget = { entity, id };
+  confirmOverlay.classList.add('open');
+}
+document.getElementById('confirmModalClose').addEventListener('click', closeConfirmModal);
+document.getElementById('confirmCancelBtn').addEventListener('click', closeConfirmModal);
+confirmOverlay.addEventListener('click', (e) => { if(e.target === confirmOverlay) closeConfirmModal(); });
+function closeConfirmModal(){
+  confirmOverlay.classList.remove('open');
+  deleteTarget = { entity:null, id:null };
+}
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+  const { entity, id } = deleteTarget;
+  if(!entity || !id) return;
+  const cfg = ENTITIES[entity];
+  const list = cfg.list();
+  const idx = list.findIndex(r => r.id === id);
+  if(idx === -1){
+    showToast('error', 'تعذر العثور على السجل لحذفه');
+  }else{
+    list.splice(idx, 1);
+    saveData(DB, false);
+    showToast('success', 'تم حذف ' + cfg.title + ' بنجاح');
+    renderAll();
+  }
+  closeConfirmModal();
+});
+
+/* =========================================================
+   التصدير والاستيراد JSON
+   ========================================================= */
+document.getElementById('btnExport').addEventListener('click', () => {
+  try{
+    const dataStr = JSON.stringify(DB, null, 2);
+    const blob = new Blob([dataStr], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+    a.href = url;
+    a.download = `ram-branches-backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('success', 'تم تصدير النسخة الاحتياطية بنجاح');
+  }catch(e){
+    showToast('error', 'فشل تصدير النسخة الاحتياطية: ' + e.message);
+  }
+});
+
+document.getElementById('btnImportTrigger').addEventListener('click', () => {
+  document.getElementById('importFileInput').click();
+});
+
+document.getElementById('importFileInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const parsed = JSON.parse(reader.result);
+      if(!parsed || !Array.isArray(parsed.branches) || !Array.isArray(parsed.insuranceCodes) || !Array.isArray(parsed.credentials)){
+        throw new Error('هيكل الملف غير صالح، يجب أن يحتوي على branches و insuranceCodes و credentials');
+      }
+      // التأكد من أن كل سجل يملك معرف فريد
+      [...parsed.branches, ...parsed.insuranceCodes, ...parsed.credentials].forEach(r => {
+        if(!r.id) r.id = crypto.randomUUID();
+      });
+      DB = parsed;
+      saveData(DB, false);
+      renderAll();
+      showToast('success', 'تم استيراد البيانات بنجاح واستبدال البيانات الحالية');
+    }catch(err){
+      showToast('error', 'فشل الاستيراد: ' + err.message);
+    }finally{
+      e.target.value = '';
+    }
+  };
+  reader.onerror = () => showToast('error', 'تعذرت قراءة الملف المحدد');
+  reader.readAsText(file, 'utf-8');
+});
+
+/* =========================================================
+   الطباعة: يطبع فقط جدول الصفحة النشطة حالياً
+   ========================================================= */
+document.getElementById('btnPrint').addEventListener('click', () => {
+  if(activePage === 'dashboard'){
+    showToast('info', 'يرجى فتح إحدى صفحات الجداول (الفروع، التأمين، الاعتماد) قبل الطباعة');
+    return;
+  }
+  window.print();
+});
+
+/* =========================================================
+   التشغيل الأولي
+   ========================================================= */
+renderAll();
+</script>
+</body>
+</html>
