@@ -854,16 +854,34 @@ function buildExcelXml(sheetNameAr, headers, dataRows){
  </Worksheet>
 </Workbook>`;
 }
-function exportEntityToExcel(entityKey){
+function csvEscapeCell(v){
+  const s = String(v == null ? '' : v);
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+}
+async function exportEntityToExcel(entityKey){
+  const cfg = ENTITIES[entityKey];
+  const rows = applyEntityQuery(entityKey);
+  const headers = cfg.columns.map(c => c.label);
+  const dataRows = rows.map(r => cfg.columns.map(c => excelCellValue(entityKey, c, r[c.key])));
+  const stamp = new Date().toISOString().slice(0,10);
+  if(typeof window.claude !== 'undefined' && window.claude.use){
+    let downloads = null;
+    try{ downloads = await window.claude.use('downloads'); }catch(e){ downloads = null; }
+    if(downloads){
+      try{
+        const csvBody = [headers, ...dataRows].map(row => row.map(csvEscapeCell).join(',')).join('\r\n');
+        await downloads.save({ filename: `RAM_Operations_${cfg.fileSection}_${stamp}.csv`, data: '﻿' + csvBody });
+        showToast('success', 'تم تصدير ملف CSV بنجاح (' + rows.length + ' سجل)');
+      }catch(err){
+        showToast('error', 'فشل تصدير الملف: ' + (err && err.message ? err.message : 'تم الإلغاء'));
+      }
+      return;
+    }
+  }
   try{
-    const cfg = ENTITIES[entityKey];
-    const rows = applyEntityQuery(entityKey);
-    const headers = cfg.columns.map(c => c.label);
-    const dataRows = rows.map(r => cfg.columns.map(c => excelCellValue(entityKey, c, r[c.key])));
     const xml = buildExcelXml(cfg.sheetNameAr, headers, dataRows);
     const blob = new Blob(['﻿' + xml], { type:'application/vnd.ms-excel' });
     const url = URL.createObjectURL(blob);
-    const stamp = new Date().toISOString().slice(0,10);
     const a = document.createElement('a');
     a.href = url; a.download = `RAM_Operations_${cfg.fileSection}_${stamp}.xls`;
     document.body.appendChild(a); a.click(); a.remove();
