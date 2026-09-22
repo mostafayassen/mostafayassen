@@ -1,6 +1,7 @@
 ---
 name: bupa-taw-medgulf-malath-matching-v8
-description: Match new bank deposits for Bupa, Tawuniya (التعاونية), MedGulf and Malath in the BANK workbook against the SOA sheets, assign each deposit its claim month in Payment Details, distribute the amount into the matching monthly column, AND post the confirmed collection into the SOA "Collection" column. (v8 — corrects: (1) always record Payment Details with the best-inferred CLAIM MONTH via sibling-deposit lag pattern even when the SOA batch/row can't be matched, and distribute into the SPECIFIC MONTH column whenever the month is known — only fall back to the YEAR column when the sheet has no monthly breakdown or the month genuinely isn't known yet; (2) blank-detection for Payment Details must use a trimmed check, not exact "" — a whitespace-only string silently excludes a real deposit from the matching pool. Supersedes v7 — delete it)
+description: >-
+  Match new bank deposits for Bupa, Tawuniya (التعاونية), MedGulf and Malath in the BANK workbook against the SOA sheets, assign each deposit its claim month in Payment Details, distribute the amount into the matching monthly column, AND post the confirmed collection into the SOA "Collection" column. (v8 — corrects: (1) always record Payment Details with the best-inferred CLAIM MONTH via sibling-deposit lag pattern even when the SOA batch/row can't be matched, and distribute into the SPECIFIC MONTH column whenever the month is known — only fall back to the YEAR column when the sheet has no monthly breakdown or the month genuinely isn't known yet; (2) blank-detection for Payment Details must use a trimmed check, not exact "" — a whitespace-only string silently excludes a real deposit from the matching pool. Supersedes v7 — delete it)
 ---
 
 ---
