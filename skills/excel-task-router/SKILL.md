@@ -29,19 +29,23 @@ description: بوابة/راوتر لكل شغل مصطفى في إدارة دو
 | الإشارة (شركة/كلمة مفتاحية) | المهارة المرشحة (الغرض) |
 |---|---|
 | TCS + "طابق/طابقلي" بس (تفاصيل مطالبات TCS موجودة) | مهارة مطابقة TCS |
-| TCS + "سجّل...ورحّل لحد Collection" (السلسلة كاملة) | مهارة full-pipeline (مسار TCS) |
+| TCS + "سجّل...ورحّل لحد Collection" (السلسلة كاملة) | مهارة `tcs-saico-globemed-full-pipeline-v4` (مسار TCS) |
 | TCS + مبلغ مجمّع/Lump sum محتاج تفكيك على أكتر من دفعة/باتش | مهارة tcs-allocation |
 | SAICO + "طابق" (ملف Customer SOA موجود) | مهارة مطابقة SAICO |
-| SAICO + "سجّل...ورحّل لحد Collection" | مهارة full-pipeline (مسار SAICO) |
+| SAICO + "سجّل...ورحّل لحد Collection" | مهارة `tcs-saico-globemed-full-pipeline-v4` (مسار SAICO) |
 | GlobeMed + "طابق" | مهارة مطابقة GlobeMed |
-| GlobeMed + "سجّل...ورحّل لحد Collection" | مهارة full-pipeline (مسار GlobeMed) |
-| Bupa / التعاونية (Tawuniya) / MedGulf / Malath | مهارة bupa-taw-medgulf-malath-matching (فيها أصلاً ترحيل Collection جوه نفسها) |
-| Gulf Union | مهارة gulf-union-bank-matching |
-| سكيكو/Sececo + "احسب المبلغ قبل الضريبة/الضريبة/الإجمالي" | مهارة sececo-payment-calc |
-| "حوالة جديدة جاية من المالية" — أي شركة، لسه مفيش تفاصيل مطالبات، المطلوب بس تسجيلها في Aging Bank | مهارة daily-bank-transfers-from-finance |
+| GlobeMed + "سجّل...ورحّل لحد Collection" | مهارة `tcs-saico-globemed-full-pipeline-v4` (مسار GlobeMed) |
+| Bupa / التعاونية (Tawuniya) / MedGulf / Malath | مهارة `bupa-taw-medgulf-malath-matching-v8` (فيها أصلاً ترحيل Collection جوه نفسها — Step 7) |
+| Gulf Union | مهارة `gulf-union-bank-matching` — **وبعدها `bank-collection-posting-v4` للترحيل** (مهارة Gulf Union بتوصل للتوزيع وتوقف، مافيهاش ترحيل) |
+| سكيكو/Sececo + "احسب المبلغ قبل الضريبة/الضريبة/الإجمالي" | مهارة `sececo-payment-calc` — **حساب بس**، مافيهاش تسجيل ولا كتابة Payment Details ولا توزيع ولا ترحيل. لو عايز الدورة كاملة لسكيكو، المسار الموثّق موجود في `collections-autopilot` (قسم سكيكو) |
+| "حوالة جديدة جاية من المالية" — أي شركة، لسه مفيش تفاصيل مطالبات، المطلوب بس تسجيلها في Aging Bank | مهارة `daily-bank-transfers-from-finance-v4` |
+| **"رحّل لحد Collection" / "رحّل المبلغ في كشف الحساب" / "مدفوعات كشف الحساب" لوحده** — الشهر متأكد ومكتوب فعلاً في Payment Details، والمطلوب بس ترحيل المبلغ لعمود M في SOA | **مهارة `bank-collection-posting-v4`** (لكل الشركات: باتشات Bupa/GlobeMed بالـanti-dump، التعاونية مطالبات+ضريبة، والباقي مباشر) |
+| "صفوف تفاصيلها متسجلة من قبل بس عمود Collection لسه فاضي" (فحص تراكمي) | مهارة `bank-collection-posting-v4` |
 | "وزّع المبلغ على أعمدة الشهور" من نص Payment Details — من غير منهجية خاصة بشركة معينة | مهارة distribute-deposits-by-payment-details |
 | "خصم الحجم السنوي" / "Vol. Disc Amount" لشركة تأمين حسب الفرع | مهارة insurance-vol-disc-tiers |
 | الملف فيه تاب RAW BANK + عايز الدورة كاملة (تسجيل→مطابقة→توزيع→ترحيل) لكل الشركات مع بعض دفعة واحدة، من غير ما يوقف يأكدله بين كل مرحلة | مهارة collections-autopilot |
+
+⚠️ **الأسماء فوق بالإصدارات المتوقعة** — طابقها على قايمة `available_skills` الفعلية وقت التشغيل. لو لقيت رقم أعلى استخدمه؛ لو لقيت رقم أقل أو الاسم بدون رقم استخدمه بس نبّه إنه أقدم من المتوقع؛ لو مش موجود خالص قول لمصطفى بدل ما ترشّح حاجة تانية مكانها.
 
 ⚠️ **تنبيه مهم عن collections-autopilot**: دي المهارة الوحيدة من الكل اللي **بتشتغل أوتوماتيك لحد الآخر من غير توقف** بعد أول تأكيد — عكس باقي المهارات اللي بتوقف بعد كل مرحلة. رشّحها بس لما الإشارات تدل على إنه عايز الدورة الكاملة الأوتوماتيكية لكل الشركات مع بعض، مش لما يكون عايز يشتغل على شركة واحدة أو يتابع كل خطوة بنفسه — في الحالة دي رشّح مهارة الشركة المتخصصة بدالها.
 
