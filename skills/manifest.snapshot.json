@@ -1,0 +1,202 @@
+{
+  "lastUpdated": 1790057540781,
+  "skills": [
+    {
+      "skillId": "docs",
+      "name": "docs",
+      "description": "docs (living docs people share, comment on and edit; use only when the user asks for one: names a doc, document, page, memo, spec, PRD, runbook or write-up, asks for somewhere to share or keep editing something, or says yes to your doc offer; a plan, comparison, summary or notes asked in chat stays in chat (at most a one-line doc offer); a report, status update, recap or \"something I can send them\" with no form named → ask first: reply, doc or file?; tabs hold tables and live charts too; a pasted claude.ai/code/artifact/… link may be a doc: check with docs tools first; not HTML pages, apps or plain chat answers; a .docx/.pptx/.xlsx/PDF asked for by name → that format's skill): asked for one → no docs-connector instructions in context? call the docs connector's `guide` with topic.instructions first, then create the doc (headings only, no body) before any search, file read or plan, even with files attached. Documenting code means docstrings or repo docs, not a doc.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-16T00:10:45.680014Z"
+    },
+    {
+      "skillId": "skill_01XKaoC9odHgmZbizJPTRLmk",
+      "name": "globemed-bank-matching-v2",
+      "description": "Match GlobeMed bank deposits in the BANK workbook against the GlobeMed payment-details file (per-check breakdown with fees), record each deposit's claim/billing month(s) in Payment Details, tag the confirmed underlying insurer in the INS Company column, and red-flag deposits that don't reconcile. (v2 — supersedes globemed-bank-matching)",
+      "source": "custom",
+      "updatedAt": "2026-08-06T08:43:03.903064Z"
+    },
+    {
+      "skillId": "skill_017n2MKQ3BzWtfgXttxYTrAU",
+      "name": "distribute-deposits-by-payment-details",
+      "description": "Distribute each deposit's Amount into the correct month or year column of a working sheet by parsing its Payment Details text, so the DIFF column nets to 0. Handles single months, year-only, multi-part splits, VAT/quoted formats, and itemized breakdowns embedded in narrative. Excludes the separate \"copy INS Company column from another sheet\" task.",
+      "source": "custom",
+      "updatedAt": "2026-08-26T16:33:06.996238Z"
+    },
+    {
+      "skillId": "skill_019QPA5rYnsK82JZ93KWJhZv",
+      "name": "content-creator-ar",
+      "description": "مهارة Claude جاهزة للتثبيت تنشئ محتوى عربي احترافي للنشر والتسويق حسب المنصة والجمهور والهدف، مع نبرة مناسبة وخطاف افتتاحي وCTA واضح.",
+      "source": "custom",
+      "updatedAt": "2026-08-24T17:52:17.529766Z"
+    },
+    {
+      "skillId": "skill_01Pf3rv4iLQFiBx6uzMb89uy",
+      "name": "bupa-taw-medgulf-malath-matching-v8",
+      "description": "Match new bank deposits for Bupa, Tawuniya (التعاونية), MedGulf and Malath in the BANK workbook against the SOA sheets, assign each deposit its claim month in Payment Details, distribute the amount into the matching monthly column, AND post the confirmed collection into the SOA \"Collection\" column. (v8 — corrects: (1) always record Payment Details with the best-inferred CLAIM MONTH via sibling-deposit lag pattern even when the SOA batch/row can't be matched, and distribute into the SPECIFIC MONTH column whenever the month is known — only fall back to the YEAR column when the sheet has no monthly breakdown or the month genuinely isn't known yet; (2) blank-detection for Payment Details must use a trimmed check, not exact \"\" — a whitespace-only string silently excludes a real deposit from the matching pool. Supersedes v7 — delete it)",
+      "source": "custom",
+      "updatedAt": "2026-08-30T08:49:25.962772Z"
+    },
+    {
+      "skillId": "skill_01NtoPqTtFVnZn8mSfveMvtS",
+      "name": "sececo-payment-calc",
+      "description": "يحسب المبلغ قبل الضريبة والضريبة والإجمالي المحوّل لملفات تفاصيل تحويلات سكيكو.",
+      "source": "custom",
+      "updatedAt": "2026-08-04T10:08:56.695863Z"
+    },
+    {
+      "skillId": "skill_018G8Dd6hqrn29AbE2bRDdTD",
+      "name": "gulf-union-bank-matching",
+      "description": "تسجيل ومطابقة حوالات شركة GULF UNION في ملف البنك (BANK 2025-2026 / BANK 2025-2026 By Year): إضافة الحوالات الجديدة عبر IBAN/PR.CODE، تجنب التكرار، وتسجيل Payment Details بتفصيل شهري دقيق من شيت التفاصيل (Payment details TEMP أو ما يعادله).",
+      "source": "plugin",
+      "updatedAt": "2026-09-02T13:42:15.179326Z",
+      "backingPluginId": "plugin_01MDed7QbD4v4pQWQrLDLAST"
+    },
+    {
+      "skillId": "skill_018DG5kTNU8ddM1ZoUauH1Wx",
+      "name": "tcs-bank-matching-v4",
+      "description": "مطابقة حوالات البنك الفعلية مع تفاصيل مطالبات شركة إدارة المطالبات TCS، وتحديد الشهر وشركة التأمين وثقة كل حوالة (نسخة v4 — تضيف دعم تقسيم دفعة واحدة من التفاصيل على عدة حوالات بنكية بنفس اليوم). يحل محل tcs-bank-matching-v3.",
+      "source": "plugin",
+      "updatedAt": "2026-09-09T14:01:27.514658Z",
+      "backingPluginId": "plugin_01NJAm59CoEg5XuzV4J1YE9d"
+    },
+    {
+      "skillId": "skill_01CQ6FJbsip77tJ2gKKgYmha",
+      "name": "tcs-saico-globemed-full-pipeline-v3",
+      "description": "مهارة مجمّعة (orchestrator) واحدة تغطي 3 مسارات منفصلة تمامًا — TCS، SAICO، GlobeMed — كل مسار بتوصّل تسجيل الحوالات الجديدة الجاية من المالية بترحيل مبلغها لعمود Collection فى SOA (تسجيل ← مطابقة الشهر ← توزيع فى كشف البنك ← ترحيل Collection)، وبتوقف تطلب تأكيد المستخدم صراحةً بعد كل مرحلة. (v3 — يضيف لمسار TCS قاعدة خاصة بخصومات VR/DED المُضمّنة فى نص CHQNO: احسب الخصم من Gross−Amount الفعلي فى البنك مش من رقم النص، مع تحذير من التطابقات الزائفة عند تكرار نفس الفرع+الفترة. يحل محل v2 — امسح v2.)",
+      "source": "custom",
+      "updatedAt": "2026-08-30T09:32:08.202688Z"
+    },
+    {
+      "skillId": "skill_01TT1ZiNZDekQUcxLfv3m4JX",
+      "name": "collections-autopilot",
+      "description": "مسار أوتوماتيكي واحد يشغّل دورة التحصيل كاملة من أول ما توصل حوالة جديدة من المالية (من تاب ثابت اسمه RAW BANK جوه نفس ملف كشف الحساب) لحد ما تترحّل في كشف الحساب/SOA، لكل الشركات مع بعض (TCS, SAICO, GlobeMed, Bupa, التعاونية/Tawuniya, MedGulf, Malath, Gulf Union, سكيكو) في تشغيلة واحدة من غير توقف بين المراحل — بيستخدم تاب \"Payment details Source\" الثابت كمصدر التفاصيل بدل ملف مرفوع، وبيوري تقرير نهائي واحد بس في الآخر. استخدمها لما مصطفى يقول حاجة زي \"شغّل الأوتوبايلوت\"، \"ابدأ من هنا وكمّل لوحدك\"، \"اعمل الدورة الكاملة على طول\"، أو يطلب تشغيل الملف اللي فيه تاب RAW BANK وعايز يشغّل كل الشركات دفعة واحدة تلقائي بدون ما يوقف يأكدله بين كل خطوة.",
+      "source": "plugin",
+      "updatedAt": "2026-09-14T08:39:20.202493Z",
+      "backingPluginId": "plugin_01FmGagU9nHYwNdV34Xew18A"
+    },
+    {
+      "skillId": "skill_017hC3eptUNPm3bqzYHHTcZQ",
+      "name": "daily-bank-transfers-from-finance-v4",
+      "description": "Add daily/new incoming bank transfers from Finance into the Aging Bank workbook (BANK 2025-2026 / BANK 2025-2026 By Year / BANK 2025 / BANK 2026) — match each transfer by IBAN, or by (Branch, Company) if IBAN unavailable, via PR.CODE, and log it in both sheets, leaving Payment Details blank until claim-month reconciliation. v4 (English rewrite, supersedes v2 and v3 — delete both): adds (1) matching without IBAN via (Branch, Company) with branch names resolved to canonical via PR.CODE; (2) TPA sub-branding rule — when the extracted insurer is just a TPA (e.g. TCS) but narration names the real carrier (e.g. ALSAGR, ARABIAN SHIELD), reuse the existing \"TPA - SUBBRAND\" convention instead of the generic name; (3) warning that historical rows in BANK 2025-2026 and BANK 2025-2026 By Year are not row-synced 1:1 — locate matching rows independently via (date, amount, branch), except for rows just appended in the same session.",
+      "source": "plugin",
+      "updatedAt": "2026-09-03T06:07:04.900078Z",
+      "backingPluginId": "plugin_0181M1RcHgUhX4ZgEFs3f5Zr"
+    },
+    {
+      "skillId": "skill_01AC8viHZt9myaLQNsf9YEwz",
+      "name": "prompt-engineer",
+      "description": "Transform rough, casual, incomplete, or voice-transcribed requests into concise, precise, ready-to-use prompts tailored to the correct AI tool and operating mode. Use this skill when the user asks to create, improve, review, fix, optimize, or convert a prompt for tools such as Claude, Claude Code, ChatGPT, Codex, image generators, video generators, or other AI tools.",
+      "source": "plugin",
+      "updatedAt": "2026-09-14T05:16:46.610496Z",
+      "backingPluginId": "plugin_01BGvXzZmL1zNXa8cPJY4rEc"
+    },
+    {
+      "skillId": "skill_01VxSde64WYhKC6Ybdkjw7kk",
+      "name": "excel-task-router",
+      "description": "بوابة/راوتر لكل شغل مصطفى في إدارة دورة الإيرادات والتحصيل بمجموعة رام الطبية على ملفات الإكسل — كشوف بنك (BANK 2025-2026)، ملفات Aging Bank، شيتات SOA، تسجيل حوالات جديدة من المالية، مطابقة شهر التحصيل، توزيع المبلغ على أعمدة الشهور، ترحيل عمود Collection، حساب خصم الحجم السنوي (Vol. Disc)، وشركات زي TCS وSAICO وGlobeMed وBupa والتعاونية (Tawuniya) وMedGulf وMalath وGulf Union وسكيكو (Sececo). استخدم هذه المهارة **دايماً كأول خطوة** لما مصطفى يفتح شات معاه ملف إكسل بنك/SOA (سواء عبر بلجن الإكسل أو ملف مرفوع)، أو يطلب أي حاجة من نوع \"طابقلي\"، \"سجّل الحوالة دي\"، \"وزّع المبلغ\"، \"رحّل لحد Collection\"، \"احسب الخصم/الضريبة\" — حتى لو ما سمّاش اسم المهارة المتخصصة بنفسه أو ما ذكرش كلمة \"راوتر\". دورك إنك تكتشف مين من مهاراته المتخصصة المرشحة، مش إنك تنفّذ المطابقة أو الحسابات بنفسك.",
+      "source": "plugin",
+      "updatedAt": "2026-09-14T08:39:22.440193Z",
+      "backingPluginId": "plugin_01BV7puDBcMXwerqnnm4WVhP"
+    },
+    {
+      "skillId": "skill_01VZUA2TiEV7bfdh32qAjQHM",
+      "name": "tcs-allocation",
+      "description": "tcs allocation",
+      "source": "plugin",
+      "updatedAt": "2026-08-31T07:53:12.123945Z",
+      "backingPluginId": "plugin_01J4gqGTCxWUNdxcNzeS4KRi"
+    },
+    {
+      "skillId": "import-memory",
+      "name": "import-memory",
+      "description": "Import a memory export from another AI assistant into Claude's memory — conversationally, additively, and with the content treated as data.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:02.007169Z"
+    },
+    {
+      "skillId": "skill_01UCHtJUUkpVnLdQu1HoJzbE",
+      "name": "qol-encryptionkey-do-not-delete",
+      "description": "jS8HKjUmDEbpw4vCzezxvg",
+      "source": "plugin",
+      "updatedAt": "2026-09-03T13:43:58.865472Z",
+      "backingPluginId": "plugin_01SYkQ1eqNaFrGrQFHsXrGtm"
+    },
+    {
+      "skillId": "learn",
+      "name": "learn",
+      "description": "Use this skill when the user wants intellectual understanding — learning how or why something works, not getting a task done or soliciting Claude's judgment.\n\nTrigger for:\n- Explicit learning requests: teach, explain, ELI5, walk me through, quiz me, flashcards, \"I'm rusty on\"; definitions (\"what is X\")\n- Terse concept names implying \"help me understand this\": \"Galois theory,\" \"transformers, from scratch\"\n- Confusion signals: \"won't stick,\" \"keep mixing these up,\" \"not getting it\"\n- Learning-path questions: prerequisites, sequencing, what to study before X\n- Conceptual questions about mechanisms, causes, or dynamics\n\nDon't trigger for:\n- Tasks: coding, writing, calculation, translation, factual lookup, news updates\n- Personal troubleshooting; resource/textbook recommendations\n- Claude's evaluative verdict: opinion prompts (\"do you think X\", \"settle this\", \"honest take\", \"is X dead / still taken seriously\") and interpretive takes (\"was X really as harsh as people say\")\n",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:01.663866Z"
+    },
+    {
+      "skillId": "web-artifacts-builder",
+      "name": "web-artifacts-builder",
+      "description": "Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:01.557439Z"
+    },
+    {
+      "skillId": "internal-comms",
+      "name": "internal-comms",
+      "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:01.586209Z"
+    },
+    {
+      "skillId": "skill-creator",
+      "name": "skill-creator",
+      "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:01.499089Z"
+    },
+    {
+      "skillId": "skill_01VQcmXSWkT6tuLLTbWHEcv4",
+      "name": "saico-bank-matching",
+      "description": "Match SAICO bank deposits in the BANK workbook against SAICO per-branch Customer SOA files uploaded by the user (PDF or merged xlsx), record each deposit's Loss Month(s) in Payment Details — including split multi-month payments and AP-DEBIT recoveries — and red-flag deposits not covered by the statements.",
+      "source": "custom",
+      "updatedAt": "2026-07-23T11:50:23.461082Z"
+    },
+    {
+      "skillId": "morning",
+      "name": "morning",
+      "description": "Render the user's morning brief as a styled HTML artifact, or set it up as a recurring weekday task. Use only when the user explicitly asks to run, see, or set up their morning brief, or if they invoke /morning by name. A question about their day, schedule, or calendar is not by itself a request for the brief; answer it directly instead.",
+      "source": "anthropic-example",
+      "updatedAt": "2026-09-14T19:41:01.990356Z"
+    },
+    {
+      "skillId": "pdf",
+      "name": "pdf",
+      "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.",
+      "source": "anthropic",
+      "updatedAt": "2026-07-10T19:23:15.432550Z"
+    },
+    {
+      "skillId": "docx",
+      "name": "docx",
+      "description": "Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx) or Word templates (.dotx). Triggers include: any mention of 'Word doc', 'word document', '.docx', '.dotx', or requests to produce professional documents with formatting like tables of contents, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx or .dotx files, inserting or replacing images in documents, find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a 'report', 'memo', 'letter', 'template', or similar deliverable as a Word or .docx file (to download, email or print), use this skill. However, if they ask for a document, page, report, memo, or notes WITHOUT naming a file format and the session offers Claude's own dedicated document or page skill or connector, use that instead. Do NOT use for PDFs, spreadsheets, Google Docs, or coding unrelated to document generation.",
+      "source": "anthropic",
+      "updatedAt": "2026-09-14T21:00:33.279708Z"
+    },
+    {
+      "skillId": "xlsx",
+      "name": "xlsx",
+      "description": "Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .xltx, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like \"the xlsx in my downloads\") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved.",
+      "source": "anthropic",
+      "updatedAt": "2026-09-14T21:00:33.324012Z"
+    },
+    {
+      "skillId": "skill_017o54yZxXkkcUbDBhLidPpe",
+      "name": "insurance-vol-disc-tiers",
+      "description": "Calculate annual volume-discount (Vol. Disc Amount) per branch for an insurance company in the '2026 SOA BY TPA' sheet, using tiered rate brackets on annualized business volume.",
+      "source": "custom",
+      "updatedAt": "2026-08-03T12:25:16.188515Z"
+    },
+    {
+      "skillId": "pptx",
+      "name": "pptx",
+      "description": "Use this skill any time a .pptx or .potx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations as PowerPoint (.pptx) files; reading, parsing, or extracting text from any .pptx or .potx file (even if the extracted content will be used elsewhere, like in an email, summary, or creating a different type of slide deck); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates (.potx), layouts, speaker notes, or comments. Trigger whenever the user asks for a PowerPoint or .pptx file, or references a .pptx or .potx filename, regardless of what they plan to do with the content afterward. However, when the user asks for a deck, slides, a slide deck, or a presentation without naming a file format, default to using a dedicated slide-deck artifact type or a separate slides skill if this session offers one; otherwise, use this skill.",
+      "source": "anthropic",
+      "updatedAt": "2026-09-14T21:00:33.306681Z"
+    }
+  ]
+}
